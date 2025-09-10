@@ -15,11 +15,20 @@
 
 typedef enum e_tok { T_WORD, T_PIPE, T_LT, T_GT, T_DGT, T_HERE }	t_tok;
 typedef enum e_redir_kind { R_IN, R_OUT, R_APP, R_HERE }	t_redir_kind;
+typedef enum e_node { N_CMD, N_PIPE }	t_node_type;
+
+typedef struct s_env {
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_redir {
 	t_redir_kind	kind;
 	char			*target;
 	int				quoted;
+	int				here_fd;
+	int				ambig;
 }	t_redir;
 
 typedef struct s_cmd {
@@ -29,7 +38,6 @@ typedef struct s_cmd {
 	int		n_redirs;
 }	t_cmd;
 
-typedef enum e_node { N_CMD, N_PIPE }	t_node_type;
 typedef struct s_ast {
 	t_node_type		type;
 	struct s_ast	*left;
