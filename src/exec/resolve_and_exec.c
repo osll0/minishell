@@ -17,7 +17,7 @@
 #include "env.h"
 #include "libft.h"
 
-static map_errno_to_status(int err)
+static int	map_errno_to_status(int err)
 {
 	if (errno == ENOENT)
 		return (127);

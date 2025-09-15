@@ -12,7 +12,7 @@
 
 #include "exec.h"
 
-int execute_ast(const t_ast *ast, t_env *env)
+int	execute_ast(const t_ast *ast, t_env *env)
 {
 	if (!ast)
 		return (0);

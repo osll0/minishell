@@ -82,7 +82,7 @@ static int	apply_here(t_redir *r)
 }
 
 /* R_IN / R_OUT / R_APP / R_HERE  enum으로 관리 */
-int apply_redirs(t_redir *redirs, int n_redirs)
+int	apply_redirs(t_redir *redirs, int n_redirs)
 {
 	int	i;
 

@@ -17,7 +17,7 @@
 #include "builtin.h"
 #include "env.h"
 
-void child_exec(const t_cmd *cmd, t_env *env)
+void	child_exec(const t_cmd *cmd, t_env *env)
 {
 	int			rc;
 	t_builtin	bk;
