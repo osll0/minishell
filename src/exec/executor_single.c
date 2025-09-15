@@ -42,8 +42,9 @@ int	execute_single_cmd(const t_cmd *cmd, t_env *env)
 		return (0);
 	bk = builtin_lookup(cmd->argv[0]);
 	if (bk == BUILTIN_CD || bk == BUILTIN_EXPORT
-			|| BUILTIN_UNSET || BUILTIN_EXIT)
-		return (builtin_exec_parent(bk, cmd->argv, env));
+		|| BUILTIN_UNSET || BUILTIN_EXIT)
+		return (run_builtin_parent_with_redirs(cmd, env));
+//		return (builtin_exec_parent(bk, cmd->argv, env));
 	pid = fork();
 	if (pid < 0)
 	{

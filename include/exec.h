@@ -27,4 +27,6 @@ int		spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe);
 
 int		resolve_and_exec(char **argv, t_env *env);
 
+int		run_builtin_parent_with_redirs(const t_cmd *cmd, t_env *env);
+
 #endif
