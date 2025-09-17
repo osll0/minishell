@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:00:17 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/15 17:00:21 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/17 15:18:35 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,34 @@
 
 static int	builtin_cd(char **argv, t_env **env)
 {
+	(void)argv;
+	(void)env;
+	fprintf(stderr,"minishell: cd: not implemented\n");
+	return (1);
 }
 
 static int	builtin_export(char **argv, t_env **env)
 {
+	(void)argv;
+	(void)env;
+	fprintf(stderr,"minishell: export: not implemented\n");
+	return (1);
 }
 
 static int	builtin_unset(char **argv, t_env **env)
 {
+	(void)argv;
+	(void)env;
+	fprintf(stderr,"minishell: unset: not implemented\n");
+	return (1);
 }
 
 static int	builtin_exit(char **argv, int last_status)
 {
+	(void)argv;
+	(void)last_status;
+	fprintf(stderr,"minishell: exit: not implemented\n");
+	return (1);
 }
 
 int	builtin_exec_parent(t_builtin k, char **argv, t_env *env)
