@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:05:01 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/14 18:06:45 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/17 17:36:39 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,9 @@ typedef enum e_builtin
 t_builtin	builtin_lookup(const char *name);
 int			builtin_exec_child(t_builtin kind, char **argv, t_env *env);
 int			builtin_exec_parent(t_builtin kind, char **argv, t_env *env);
+
+int			builtin_echo(char **argv);
+int			builtin_pwd(char **argv);
+int			builtin_env(char **argv, t_env *env);
 
 #endif
