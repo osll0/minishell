@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 22:39:56 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/14 16:52:04 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/17 14:05:30 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <error.h>
 #include "exec.h"
+#include "pipe.h"
 #include "builtin.h"
 #include "env.h"
 
