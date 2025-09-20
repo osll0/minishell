@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:05:01 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/17 17:36:39 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/20 17:45:22 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "ast.h"
+# include "env.h"
 
 typedef enum e_builtin
 {
