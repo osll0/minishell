@@ -12,6 +12,8 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 # 인클루드 경로
 INCLUDES = -Iinclude -I$(LIBFT_DIR)
 
+SRC_MAIN = src/main.c
+
 # 소스 목록 (현재 디렉토리 트리에 맞춤)
 SRC_ENV = \
 	src/env/env_utils.c \
@@ -19,7 +21,7 @@ SRC_ENV = \
 	src/env/env_from_environ.c \
 	src/env/env_to_array.c
 
-SRCS = $(SRC_ENV)
+SRCS = $(SRC_ENV) $(SRC_ENV)
 OBJS = $(SRCS:.c=.o)
 
 # 공통 .c -> .o 규칙 (헤더 경로 포함)
@@ -50,7 +52,13 @@ re: fclean all
 tests/env_smoke: tests/env_smoke.c $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
 
-tests: tests/env_smoke
+tests/exec_env_demo: tests/exec_env_demo.c $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
+
+tests/env_all: tests/env_all.c $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
+
+tests: tests/env_smoke tests/exec_env_demo tests/env_all
 
 .PHONY: all clean fclean re tests
 
