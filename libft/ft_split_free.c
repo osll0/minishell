@@ -6,11 +6,12 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:52:33 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/14 16:53:27 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/20 14:54:38 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 void	ft_split_free(char **v)
 {

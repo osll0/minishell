@@ -6,7 +6,7 @@
 /*   By: seokson <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:30:14 by seokson           #+#    #+#             */
-/*   Updated: 2025/07/08 13:23:49 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/20 14:55:02 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,6 @@ double	ft_atod(const char *nbr);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_isnum(const char *s);
 
+void	ft_split_free(char **v);
+char	*ft_strndup(const char *s, size_t n);
 #endif
