@@ -1,24 +1,56 @@
-# ===[ 기존 변수/타깃은 유지하세요 ]===
+# 프로젝트 이름
+NAME = minishell
 
-# 테스트 설정
-TEST_DIR    := tests
-TEST_TARGET := exec_smoke
+# 컴파일러 & 옵션
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
 
-.PHONY: test test-run test-clean test-fclean
+# 라이브러리
+LIBFT_DIR = libft
+LIBFT     = $(LIBFT_DIR)/libft.a
 
-# tests/Makefile을 호출해서 빌드
-test: minishell
-	$(MAKE) -C $(TEST_DIR)
+# 인클루드 경로
+INCLUDES = -Iinclude -I$(LIBFT_DIR)
 
-# 빌드 후 바로 실행
-test-run: test
-	./$(TEST_DIR)/$(TEST_TARGET)
+# 소스 목록 (현재 디렉토리 트리에 맞춤)
+SRC_ENV = \
+	src/env/env_utils.c \
+	src/env/env_list.c \
+	src/env/env_from_environ.c \
+	src/env/env_to_array.c
 
-# 테스트 산출물만 정리
-test-clean:
-	$(MAKE) -C $(TEST_DIR) clean
+SRCS = $(SRC_ENV)
+OBJS = $(SRCS:.c=.o)
 
-# 테스트 바이너리까지 완전 정리
-test-fclean:
-	$(MAKE) -C $(TEST_DIR) fclean
+# 공통 .c -> .o 규칙 (헤더 경로 포함)
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# 기본 빌드
+all: $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+
+# libft 빌드
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
+clean:
+	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
+
+fclean: clean
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+
+re: fclean all
+
+# 테스트용 실행파일
+tests/env_smoke: tests/env_smoke.c $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
+
+tests: tests/env_smoke
+
+.PHONY: all clean fclean re tests
 
