@@ -37,26 +37,19 @@ $(LIBFT):
 
 # Clean
 clean:
-	rm -f $(OBJS) \
-		src/builtin/builtin_lookup.o \
-		src/builtin/builtin_child_impl.o \
-		src/builtin/builtin_parent_impl.o
+	rm -f $(OBJS) $(BUILTIN_OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME) \
-		tests/env_smoke \
-		tests/exec_env_demo \
-		tests/env_all \
-		tests/builtin_smoke
+	rm -f $(NAME) tests/env_smoke tests/exec_env_demo tests/env_all tests/builtin_smoke
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
 # ===== Tests =====
 
-# env test binaries reuse core objects
-ENV_TEST_OBJS := $(OBJS)
+# env test binaries reuse core objects (main.o 제외)
+ENV_TEST_OBJS := $(filter-out $(SRC_MAIN:.c=.o),$(OBJS))
 
 tests/env_smoke: tests/env_smoke.c $(ENV_TEST_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
@@ -67,17 +60,22 @@ tests/exec_env_demo: tests/exec_env_demo.c $(ENV_TEST_OBJS) $(LIBFT)
 tests/env_all: tests/env_all.c $(ENV_TEST_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
 
-# builtin_smoke test (adds builtin objs)
-BUILTIN_SRCS := \
-	src/builtin/builtin_lookup.c \
-	src/builtin/builtin_child_impl.c \
-	src/builtin/builtin_parent_impl.c
+# builtin_smoke test (optional, 존재하는 파일만)
+BUILTIN_SRCS := $(wildcard src/builtin/builtin_*.c)
 BUILTIN_OBJS := $(BUILTIN_SRCS:.c=.o)
 
+ifneq ($(BUILTIN_OBJS),)
 tests/builtin_smoke: tests/builtin_smoke.c $(BUILTIN_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
+endif
 
-tests: tests/env_smoke tests/exec_env_demo tests/env_all tests/builtin_smoke
+# aggregate tests
+TEST_TARGETS := tests/env_smoke tests/exec_env_demo tests/env_all
+ifneq ($(BUILTIN_OBJS),)
+TEST_TARGETS += tests/builtin_smoke
+endif
+
+tests: $(TEST_TARGETS)
 
 .PHONY: all clean fclean re tests
 
