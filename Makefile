@@ -65,7 +65,7 @@ BUILTIN_SRCS := $(wildcard src/builtin/builtin_*.c)
 BUILTIN_OBJS := $(BUILTIN_SRCS:.c=.o)
 
 ifneq ($(BUILTIN_OBJS),)
-tests/builtin_smoke: tests/builtin_smoke.c $(BUILTIN_OBJS) $(LIBFT)
+tests/builtin_smoke: tests/builtin_smoke.c $(ENV_TEST_OBJS) $(BUILTIN_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) $^ -L$(LIBFT_DIR) -lft -o $@
 endif
 
