@@ -1,68 +1,100 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtin_smoke.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 14:38:39 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/17 18:45:16 by seokson          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "builtin.h"
-#include "ast.h"
+// tests/builtin_smoke.c
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include "libft.h"
+#include "env.h"
+#include "builtin.h"
 
-static int	run_echo(char **av)
+/* 간단 룩업: exec 쪽과 동일 enum 매핑 */
+static t_builtin lookup(const char *s)
 {
-	t_env	*env;
-
-	env = NULL;
-	return builtin_exec_child(BUILTIN_ECHO, av, env);
+	if (!s) return BUILTIN_NONE;
+	if (ft_strcmp(s, "echo") == 0) return BUILTIN_ECHO;
+	if (ft_strcmp(s, "pwd") == 0) return BUILTIN_PWD;
+	if (ft_strcmp(s, "env") == 0) return BUILTIN_ENV;
+	if (ft_strcmp(s, "cd") == 0) return BUILTIN_CD;
+	if (ft_strcmp(s, "export") == 0) return BUILTIN_EXPORT;
+	if (ft_strcmp(s, "unset") == 0) return BUILTIN_UNSET;
+	if (ft_strcmp(s, "exit") == 0) return BUILTIN_EXIT;
+	return BUILTIN_NONE;
 }
 
-static int	run_pwd(void) {
-	t_env *env = NULL;
-	char *av[] = { "pwd", "i--", NULL };
-	(void)env;
-	return builtin_exec_child(BUILTIN_PWD, av, env);
+static int is_parent_builtin(t_builtin k)
+{
+	return (k == BUILTIN_CD || k == BUILTIN_EXPORT || k == BUILTIN_UNSET || k == BUILTIN_EXIT);
 }
 
-static int run_env(void) {
-	/* env는 NULL이므로 출력 없음(크래시 안 나는지만 확인) */
-	t_env *env = NULL;
-	char *av[] = { "env", "-a", NULL };
-	return builtin_exec_child(BUILTIN_ENV, av, env);
+static void free_argv(char **argv)
+{
+	size_t i = 0;
+	if (!argv) return;
+	while (argv[i]) { free(argv[i]); i++; }
+	free(argv);
 }
 
-int main(void) {
-	int rc;
-	/* echo */
-	{ char *av[] = {"echo","-nna","world",NULL}; rc = run_echo(av);
-		printf("[echo] rc=%d (expect 0)\n", rc); }
+/* 공백 기준 토크나이즈(따옴표/이스케이프는 미지원: smoke 용) */
+static char **split_argv(const char *line)
+{
+	char **parts = NULL;
+	char *dup = NULL;
+	size_t i;
 
-	/* echo -n -n */
-	{ char *av[] = {"echo","-nnn","-n","HI",NULL}; rc = run_echo(av);
-		printf("[echo -n -n] rc=%d (expect 0)\n", rc); }
+	if (!line) return NULL;
+	dup = ft_strdup(line);
+	if (!dup) return NULL;
+	i = ft_strlen(dup);
+	if (i && dup[i - 1] == '\n') dup[i - 1] = '\0';
+	parts = ft_split(dup, ' ');
+	free(dup);
+	return parts;
+}
 
-	/* pwd */
-	rc = run_pwd();
-	printf("[pwd] rc=%d (expect 0)\n", rc);
+int main(int argc, char **argv, char **environ)
+{
+	t_env *env_head;
+	char buf[4096];
 
-	/* env (NULL 리스트) */
-	rc = run_env();
-	printf("[env(NULL)] rc=%d (expect 0)\n", rc);
+	(void)argc; (void)argv;
+	env_head = env_from_environ(environ);
+	if (!env_head) { fprintf(stderr, "env init failed\n"); return 1; }
 
-	/* parent stubs */
-	/*
+	printf("builtin_smoke REPL (echo/pwd/env | cd/export/unset/exit)\n");
+	printf("type commands; Ctrl-D to quit. example: export FOO=BAR\n\n");
+	while (fgets(buf, sizeof(buf), stdin))
 	{
-		t_env *env = NULL;
-		char *cdv[] = {"cd","/",NULL};
-		rc = builtin_exec_parent(BUILTIN_CD, cdv, env);
-		printf("[cd stub] rc=%d (expect 1)\n", rc);
+		char **av = split_argv(buf);
+		t_builtin k;
+		int rc;
+
+		if (!av || !av[0]) { free_argv(av); continue; }
+		k = lookup(av[0]);
+		if (k == BUILTIN_NONE)
+		{
+			printf("[info] not a builtin: %s\n", av[0]);
+			free_argv(av);
+			continue;
+		}
+		if (is_parent_builtin(k))
+		{
+			rc = builtin_exec_parent(k, av, &env_head);
+			if (rc >= 256)
+			{
+				int code = rc - 256;
+				free_argv(av);
+				env_free(&env_head);
+				exit(code);
+			}
+			printf("[parent rc=%d]\n", rc);
+		}
+		else
+		{
+			rc = builtin_exec_child(k, av, env_head);
+			printf("[child rc=%d]\n", rc);
+		}
+		free_argv(av);
 	}
-	*/
+	env_free(&env_head);
 	return 0;
 }
+
