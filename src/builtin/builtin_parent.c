@@ -6,59 +6,55 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:00:17 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/17 15:18:35 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/27 17:39:07 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
 #include "libft.h"
 #include "builtin.h"
 
-static int	builtin_cd(char **argv, t_env **env)
+static int	will_exit(char *const *argv)
 {
-	(void)argv;
-	(void)env;
-	fprintf(stderr,"minishell: cd: not implemented\n");
+	int	i;
+	int	overflow;
+	long long v;
+
+	i = 1;
+	if (argv[i] && bi_is_double_dash(argv[i]))
+		i++;
+	if (argv[i] == NULL)
+		return (1);
+	if (argv[i + 1] != NULL)
+		return (0);
+	if (bi_is_single_dash(argv[i]) || bi_is_triple_dash(argv[i]))
+		return (1);
+	if (!bi_parse_longlong(argv[i], &v, &overflow) || overflow)
+		return (1);
 	return (1);
 }
 
-static int	builtin_export(char **argv, t_env **env)
+int	builtin_exec_parent(t_builtin k, char **argv, t_env **penv)
 {
-	(void)argv;
-	(void)env;
-	fprintf(stderr,"minishell: export: not implemented\n");
-	return (1);
-}
+	int	do_exit;
+	int	exit_status;
+	int	rc;
 
-static int	builtin_unset(char **argv, t_env **env)
-{
-	(void)argv;
-	(void)env;
-	fprintf(stderr,"minishell: unset: not implemented\n");
-	return (1);
-}
-
-static int	builtin_exit(char **argv, int last_status)
-{
-	(void)argv;
-	(void)last_status;
-	fprintf(stderr,"minishell: exit: not implemented\n");
-	return (1);
-}
-
-int	builtin_exec_parent(t_builtin k, char **argv, t_env *env)
-{
-	t_env *temp;
-
-	temp = env;
+	if (!argv || !argv[0])
+		return (0);
 	if (k == BUILTIN_CD)
-		return (builtin_cd(argv, &temp));
+		return (builtin_cd(argv, penv));
 	if (k == BUILTIN_EXPORT)
-		return (builtin_export(argv, &temp));
+		return (builtin_export(argv, penv));
 	if (k == BUILTIN_UNSET)
-		return (builtin_unset(argv, &temp));
+		return (builtin_unset(argv, penv));
 	if (k == BUILTIN_EXIT)
-		return (builtin_exit(argv, 0));
+	{
+		if (will_exit(argv))
+			ft_putstr_fd("exit\n", 2);
+		rc = builtin_exit(argv, &do_exit, &exit_status);
+		if (do_exit)
+			return (256 + (unsigned char)exit_status);
+		return (rc);
+	}
 	return (0);
 }

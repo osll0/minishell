@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 14:43:38 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/17 17:36:32 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/20 21:07:47 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 int	builtin_exec_child(t_builtin k, char **argv, t_env *env)
 {
+	if (!argv || !argv[0])
+		return (0);
 	if (k == BUILTIN_ECHO)
 		return (builtin_echo(argv));
 	if (k == BUILTIN_PWD)
