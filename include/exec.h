@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 15:50:40 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/17 14:33:48 by seokson          ###   ########.fr       */
+/*   Updated: 2025/09/21 12:04:50 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "ast.h"
 
-typedef struct s_pipe t_pipe;
+typedef struct s_pipe	t_pipe;
 
 int		execute_ast(const t_ast *ast, t_env *env);
 int		execute_single_cmd(const t_cmd *cmd, t_env *env);
