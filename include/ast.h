@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 16:41:14 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/08/23 16:51:10 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:32:40 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@
 typedef enum e_tok { T_WORD, T_PIPE, T_LT, T_GT, T_DGT, T_HERE }	t_tok;
 typedef enum e_redir_kind { R_IN, R_OUT, R_APP, R_HERE }	t_redir_kind;
 typedef enum e_node { N_CMD, N_PIPE }	t_node_type;
-
-typedef struct s_env {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
 
 typedef struct s_redir {
 	t_redir_kind	kind;
