@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:09:08 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/09/21 13:06:33 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/09/21 13:17:43 by seunbaek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "loop.h"
@@ -29,12 +29,11 @@ void	loop(t_env *env_list)
 			continue ;
 		}
 		if (!line)
-		{
 			break ;
-		}
 		if (*line)
 			add_history(line);
 		todo_parse();
 		free(line);
 	}
+	free(line);
 }
