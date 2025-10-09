@@ -6,10 +6,11 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 21:37:18 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/21 18:02:32 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/05 18:20:23 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include "env.h"
 #include "builtin.h"
 
@@ -51,6 +52,8 @@ int	builtin_unset(char *const *argv, t_env **penv)
 		}
 		if (bi_is_valid_identifier(argv[i]))
 			env_unset(penv, argv[i]);
+		else
+			bi_print_err("unset", "not a valid identifier", argv[i]);
 		i++;
 	}
 	return (0);

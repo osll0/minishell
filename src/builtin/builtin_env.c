@@ -22,7 +22,7 @@ static int	env_check_options(char **argv)
 	i = 1;
 	if (argv[i] && (bi_is_triple_dash(argv[i]) || bi_is_option_token(argv[i])))
 	{
-		bi_print_err("env", "invalid option", argv[1]);
+		bi_print_err("env", "invalid option", argv[i]);
 		ft_putstr_fd("env: usage: env [no options] [no arguments]\n", 2);
 		return (2);
 	}

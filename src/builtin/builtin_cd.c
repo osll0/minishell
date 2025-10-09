@@ -6,12 +6,14 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 21:27:08 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/21 16:45:58 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/06 16:11:22 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #include "libft.h"
 #include "env.h"
 #include "builtin.h"
@@ -25,7 +27,7 @@ static int	change_dir_and_update_env(const char *path, t_env **penv)
 		old[0] = '\0';
 	if (chdir(path) != 0)
 	{
-		bi_print_err("cd", "cannot change directory", path);
+		bi_print_err("cd", path, strerror(errno));
 		return (1);
 	}
 	if (getcwd(now, sizeof(now)) != NULL)
