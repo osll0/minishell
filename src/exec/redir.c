@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 12:07:58 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 20:11:55 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	apply_in(const char *path)
 	}
 	if (x_dup2(fd, STDIN_FILENO) < 0)
 	{
-		x_close(fd);
 		ex_print_err("dup2", strerror(errno));
+		x_close(fd);
 		return (-1);
 	}
 	if (x_close(fd) < 0)
@@ -50,8 +50,8 @@ static int	apply_out_trunc(const char *path)
 	}
 	if (x_dup2(fd, STDOUT_FILENO) < 0)
 	{
-		x_close(fd);
 		ex_print_err("dup2", strerror(errno));
+		x_close(fd);
 		return (-1);
 	}
 	if (x_close(fd) < 0)
@@ -71,8 +71,8 @@ static int	apply_out_append(const char *path)
 	}
 	if (x_dup2(fd, STDOUT_FILENO) < 0)
 	{
-		x_close(fd);
 		ex_print_err("dup2", strerror(errno));
+		x_close(fd);
 		return (-1);
 	}
 	if (x_close(fd) < 0)
@@ -89,9 +89,9 @@ static int	apply_here(t_redir *r)
 	}
 	if (x_dup2(r->here_fd, STDIN_FILENO) < 0)
 	{
+		ex_print_err("dup2", strerror(errno));
 		x_close(r->here_fd);
 		r->here_fd = -1;
-		ex_print_err("dup2", strerror(errno));
 		return (-1);
 	}
 	if (x_close(r->here_fd) < 0)
