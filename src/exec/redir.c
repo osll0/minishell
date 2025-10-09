@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 12:07:58 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/06 15:50:32 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <errno.h>
 #include <string.h>
 #include "ast.h"
-#include "builtin.h"
 #include "fd_utils.h"
 #include "exec.h"
 

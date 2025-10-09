@@ -6,14 +6,12 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 21:08:07 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/05 17:12:19 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
-#include <unistd.h>
 #include <sys/wait.h>
-#include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include "fd_utils.h"

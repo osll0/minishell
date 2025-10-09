@@ -6,12 +6,10 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:28:29 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/05 18:30:25 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>

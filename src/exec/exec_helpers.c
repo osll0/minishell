@@ -6,11 +6,10 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:24:17 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/07 14:24:59 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:44:47 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <asm-generic/errno-base.h>
 #include <unistd.h>
 #include <errno.h>
 #include <stdlib.h>

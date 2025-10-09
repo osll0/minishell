@@ -6,13 +6,12 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:34:19 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/06 19:38:12 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:51:10 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
-#include <stdlib.h>
 #include "libft.h"
 #include "env.h"
 #include "exec.h"

@@ -6,15 +6,13 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:29:41 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/07 16:14:54 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:51:10 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
-#include <stdlib.h>
 #include "exec.h"
-#include "env.h"
 #include "libft.h"
 
 /* dir가 ""면 "."로 치환, 디렉터리 검색권한(x) 없으면 *pskip=1 후 NULL 반환

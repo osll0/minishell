@@ -6,11 +6,10 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:32:03 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/05 12:55:14 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
