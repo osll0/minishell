@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 10:08:45 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/08 10:11:22 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/06 16:27:00 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	pipes_create(int n, int (*pipes)[2])
 			{
 				close_pipe_pair(pipes[j]);
 				j++;
-				return (-1);
 			}
+			return (-1);
 		}
 		i++;
 	}
