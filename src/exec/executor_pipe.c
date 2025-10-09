@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 21:08:07 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/14 18:41:53 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/05 17:12:19 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,75 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdio.h>
-#include "exec.h"
+#include <errno.h>
+#include <string.h>
 #include "fd_utils.h"
 #include "ast.h"
+#include "exec.h"
 
 static int	count_cmds(const t_ast *ast)
 {
-	int	count;
-
 	if (!ast)
 		return (0);
 	if (ast->type == N_CMD)
 		return (1);
-	count = 0;
-	count += count_cmds(ast->left, out, idx);
-	count += count_cmds(ast->right, out, idx);
-	return (count);
+	return (count_cmds(ast->left) + count_cmds(ast->right));
+}
+
+static int	decode_wait_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
 }
 
 static int	wait_all(int k, pid_t last_pid)
 {
-	int		i;
 	int		status;
 	int		last_status;
 	pid_t	pid;
 
-	i = 0;
 	last_status = 1;
-	while (i < k)
+	while (k > 0)
 	{
 		pid = waitpid(-1, &status, 0);
 		if (pid < 0)
-			perror("minishell: waitpid");
-		else if (pid == last_pid)
 		{
-			if (WIFEXITED(status))
-				last_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				last_status = 128 + WTERMSIG(status);
-			else
-				last_status = 1;
+			if (errno == EINTR)
+				continue ;
+			if (errno == ECHILD)
+				break ;
+			ex_print_err("waitpid", strerror(errno));
+			break ;
 		}
-		i++;
+		else if (pid == last_pid)
+			last_status = decode_wait_status(status);
+		k--;
 	}
 	return (last_status);
 }
 
 static int	exec_pipeline_dfs(const t_ast *n, t_pipe *p)
 {
+	int	rc;
 	int	need_pipe;
 
 	if (!n)
 		return (0);
 	if (n->type == N_CMD)
 	{
-		need_pipe = 0;
-		if (p->remain > 1)
-			need_pipe = 1;
+		need_pipe = (p->remain > 1);
 		return (spawn_stage(&n->cmd, p, need_pipe));
 	}
-	if (exec_pipeline_dfs(n->left, p) != 0)
-		return (1);
+	rc = exec_pipeline_dfs(n->left, p);
+	if (rc != 0)
+		return (rc);
 	return (exec_pipeline_dfs(n->right, p));
 }
 
-int	execute_pipe(const t_ast *node, t_env *env)
+int	execute_pipe(const t_ast *node, t_env **penv)
 {
 	int		rc;
 	t_pipe	ctx;
@@ -88,7 +92,7 @@ int	execute_pipe(const t_ast *node, t_env *env)
 	ctx.prev_in = -1;
 	ctx.made = 0;
 	ctx.last_pid = -1;
-	ctx.env = env;
+	ctx.env = *penv;
 	ctx.remain = count_cmds(node);
 	if (ctx.remain <= 0)
 		return (0);
@@ -96,6 +100,6 @@ int	execute_pipe(const t_ast *node, t_env *env)
 	if (ctx.prev_in >= 0)
 		x_close(ctx.prev_in);
 	if (rc != 0)
-		return (1);
+		return (rc);
 	return (wait_all(ctx.made, ctx.last_pid));
 }
