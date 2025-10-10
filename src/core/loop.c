@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:09:08 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/10 20:18:49 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/10 20:52:27 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "loop.h"
@@ -33,21 +33,14 @@ void	loop(t_env *env_list)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (g_interrupted)
+		if (!line)
 		{
 			write(1, "\n", 1);
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			g_interrupted = 0;
-			continue ;
-		}
-		if (!line)
 			break ;
+		}
 		if (*line)
 			add_history(line);
 		print_tokens(tokenize_input(line));
 		free(line);
-	}
-	free(line);
+	}	
 }

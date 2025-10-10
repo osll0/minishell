@@ -6,18 +6,24 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 11:48:50 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/10 20:32:19 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/10 20:52:58 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <unistd.h>
 
 volatile sig_atomic_t	g_interrupted = 0;
 
 void	sigint_handler_parent(int sig)
 {
 	(void)sig;
-	g_interrupted = 1;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	set_signals_parent(void)
