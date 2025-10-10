@@ -6,11 +6,14 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:53:50 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/09/27 16:53:15 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:55:51 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include <stddef.h>
+#include <stdlib.h>
+#include "libft.h"
 
 static t_token	*new_token(const char *val, t_token_type type)
 {
@@ -41,16 +44,47 @@ static size_t	add_token(t_token **head, t_token *newt, size_t	i)
 	return (i);
 }
 
-static size_t	parse_word(const char *line, size_t *i, t_token **head)
+static int	parse_quote(const char *line, size_t *i)
+{
+	char	quote;
+	size_t	start;
+
+	quote = line[*i];
+	start = ++(*i);
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	if (!line[*i])
+	{
+		lexer_error("unclosed quote", &line[start]);
+		return (0);
+	}
+	(*i)++;
+	return (1);
+}
+
+static size_t	parse_word(const char *line, size_t *i, t_token **tokens)
 {
 	char	*word;
-	char	quote;
 	size_t	start;
 
 	start = *i;
 	while (line[*i] && !ft_isspace(line[*i]) && line[*i] != '|'
 		&& line[*i] != '<' && line[*i] != '>')
-		break ;
+	{
+		if (line[*i] == '\'' || line[*i] == '"')
+		{
+			if (parse_quote(line, i) == 0)
+				return (0);
+		}
+		else
+			(*i)++;
+	}
+	word = ft_strndup(&line[start], (*i) - start);
+	if (!word)
+		return (0);
+	add_token(tokens, new_token(word, TOKEN_WORD), 0);
+	free(word);
+	return (1);
 }
 
 t_token	*tokenize_input(const char *line)
@@ -71,12 +105,11 @@ t_token	*tokenize_input(const char *line)
 		else if (line[i] == '>' && line[i + 1] == '>')
 			i += add_token(&tokens, new_token(">>", TOKEN_REDIR_APPEND), 2);
 		else if (line[i] == '<')
-			i += add_token(&tokens, new_token('<', TOKEN_REDIR_IN), 1);
+			i += add_token(&tokens, new_token("<", TOKEN_REDIR_IN), 1);
 		else if (line[i] == '>')
-			i += add_token(&tokens, new_token('>', TOKEN_REDIR_OUT), 1);
-		else
-			if (parse_word(line, &i, &tokens) == 0)
-				return (0);
+			i += add_token(&tokens, new_token(">", TOKEN_REDIR_OUT), 1);
+		else if (parse_word(line, &i, &tokens) == 0)
+			return (free_tokens(tokens));
 	}
 	return (tokens);
 }

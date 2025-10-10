@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.h                                           :+:      :+:    :+:   */
+/*   minishell_signal.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 12:41:45 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/09/21 12:46:15 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:38:25 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_H
-# define SIGNAL_H
+#ifndef MINISHELL_SIGNAL_H
+# define MINISHELL_SIGNAL_H
 # include <signal.h>
 
 extern volatile sig_atomic_t	g_interrupted;

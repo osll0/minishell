@@ -11,21 +11,31 @@ LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
 # Sources
-SRC_MAIN := src/main.c
+SRC_MAIN := \
+	src/main.c
+
 SRC_ENV := \
 	src/env/env_utils.c \
 	src/env/env_list.c \
 	src/env/env_from_environ.c \
 	src/env/env_to_array.c
 
-SRCS := $(SRC_MAIN) $(SRC_ENV)
+SRC_LEXER := \
+	src/lexer/lexer.c \
+	src/lexer/token_utils.c
+
+SRC_CORE := \
+	src/core/loop.c \
+	src/core/signal.c \
+
+SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE)
 OBJS := $(SRCS:.c=.o)
 
 # Default
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -L$(LIBFT_DIR) -lft -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $@
 
 # Compile rule
 %.o: %.c

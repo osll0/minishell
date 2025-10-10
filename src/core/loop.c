@@ -6,16 +6,30 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:09:08 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/09/21 13:17:43 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/10/10 20:18:49 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "loop.h"
-#include "signal.h"
+#include "minishell_signal.h"
+#include "env.h"
+#include <unistd.h>
+#include "lexer.h"
+#include <stdio.h>
+
+void	print_tokens(t_token *tokens)
+{
+	while (tokens)
+	{
+		printf("%s\n", tokens->value);
+		tokens = tokens->next;
+	}
+}
 
 void	loop(t_env *env_list)
 {
 	char	*line;
 
+	(void)env_list;
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -24,7 +38,7 @@ void	loop(t_env *env_list)
 			write(1, "\n", 1);
 			rl_on_new_line();
 			rl_replace_line("", 0);
-			re_redisplay();
+			rl_redisplay();
 			g_interrupted = 0;
 			continue ;
 		}
@@ -32,7 +46,7 @@ void	loop(t_env *env_list)
 			break ;
 		if (*line)
 			add_history(line);
-		todo_parse();
+		print_tokens(tokenize_input(line));
 		free(line);
 	}
 	free(line);

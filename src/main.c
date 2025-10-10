@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,10 +6,10 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:11:57 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/09/26 12:00:00 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:48:31 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "signal.h"
+#include "minishell_signal.h"
 #include "loop.h"
 #include "env.h"
 
@@ -20,7 +19,7 @@ int	main(int ac, char **av, char **ev)
 
 	(void)ac;
 	(void)av;
-	env_list = env_fron_environ(ev);
+	env_list = env_from_environ(ev);
 	set_signals_parent();
 	loop(env_list);
 	env_free(&env_list);

@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:12:51 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/09/26 17:46:31 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:56:51 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ typedef struct s_token
 }	t_token;
 
 t_token	*tokenize_input(const char *line);
+t_token	*free_tokens(t_token *tokens);
+void	lexer_error(const char *msg, const char *near);
 
 #endif
