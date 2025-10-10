@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 11:48:50 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/10 20:52:58 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/10 20:55:01 by eggcoffee        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
-
-volatile sig_atomic_t	g_interrupted = 0;
 
 void	sigint_handler_parent(int sig)
 {
