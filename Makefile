@@ -24,11 +24,16 @@ SRC_LEXER := \
 	src/lexer/lexer.c \
 	src/lexer/token_utils.c
 
+SRC_PARSER := \
+	src/parser/parser.c \
+	src/parser/parser_utils.c \
+	src/parser/print_ast.c
+
 SRC_CORE := \
 	src/core/loop.c \
 	src/core/signal.c \
 
-SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE)
+SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER)
 OBJS := $(SRCS:.c=.o)
 
 # Default
