@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "env.h"
 
 int	execute_ast(const t_ast *ast, t_env **penv)
 {

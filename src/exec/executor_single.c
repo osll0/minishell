@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include "builtin.h"
 #include "ast.h"
-#include "exec.h"
+#include "builtin.h"
 
 static int	wait_status(pid_t pid)
 {
