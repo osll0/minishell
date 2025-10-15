@@ -40,14 +40,13 @@ void	loop(t_env *env_list)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			write(1, "\n", 1);
+			write(1, "exit\n", 5);
 			break ;
 		}
 		if (*line)
 			add_history(line);
 		tokens = tokenize_input(line);
 		ast = parse_tokens(tokens);
-		print_ast(ast, 0);
 		execute_ast(ast, &env_list);
 		free_loop(line, tokens, ast);
 	}	

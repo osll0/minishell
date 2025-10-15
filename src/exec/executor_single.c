@@ -19,6 +19,7 @@
 #include "ast.h"
 #include "builtin.h"
 #include "exec.h"
+#include "minishell_signal.h"
 
 static int	wait_status(pid_t pid)
 {
@@ -27,8 +28,12 @@ static int	wait_status(pid_t pid)
 	if (waitpid(pid, &status, 0) < 0)
 	{
 		ex_print_err("waitpid", strerror(errno));
+		set_signals_parent();
+		check_fork_signal(status);
 		return (1);
 	}
+	set_signals_parent();
+	check_fork_signal(status);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
@@ -47,9 +52,11 @@ int	execute_single_cmd(const t_cmd *cmd, t_env **penv)
 	if (bk == BUILTIN_CD || bk == BUILTIN_EXPORT
 		|| bk == BUILTIN_UNSET || bk == BUILTIN_EXIT)
 		return (run_builtin_parent_with_redirs(cmd, penv));
+	set_signals_fork();
 	pid = fork();
 	if (pid < 0)
 	{
+		set_signals_parent();
 		ex_print_err("fork", strerror(errno));
 		return (1);
 	}

@@ -17,6 +17,7 @@
 #include "exec.h"
 #include "pipe.h"
 #include "fd_utils.h"
+#include "minishell_signal.h"
 
 static int	handle_fork_error(t_pipe *p, int need_pipe, int pipe[2])
 {
@@ -82,6 +83,7 @@ int	spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe)
 
 	if (need_pipe && x_pipe(pipe) < 0)
 		return (1);
+	set_signals_fork();
 	pid = fork();
 	if (pid < 0)
 		return (handle_fork_error(p, need_pipe, pipe));

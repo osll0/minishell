@@ -67,7 +67,7 @@ SRC_BUILTIN := \
 	src/builtin/builtin_unset.c \
 	src/builtin/builtin_utils.c \
 
-SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD)
+SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD) $(SRC_BUILTIN)
 OBJS := $(SRCS:.c=.o)
 
 # Default

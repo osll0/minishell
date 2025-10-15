@@ -54,7 +54,8 @@ void	parse_tokens_to_cmd(t_token **cur, t_cmd *cmd)
 			cmd->argv[cmd->argc++] = ft_strdup((*cur)->value);
 		else if ((*cur)->type >= 2 && (*cur)->type <= 5)
 			cmd->redirs[cmd->n_redirs++] = parse_redir(cur);
-		*cur = (*cur)->next;
+		if (*cur)
+			*cur = (*cur)->next;
 	}
 	cmd->argv[cmd->argc] = NULL;
 }

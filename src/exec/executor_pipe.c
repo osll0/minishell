@@ -17,6 +17,7 @@
 #include "fd_utils.h"
 #include "ast.h"
 #include "exec.h"
+#include "minishell_signal.h"
 
 static int	count_cmds(const t_ast *ast)
 {
@@ -59,6 +60,8 @@ static int	wait_all(int k, pid_t last_pid)
 			last_status = decode_wait_status(status);
 		k--;
 	}
+	set_signals_parent();
+	check_fork_signal(status);
 	return (last_status);
 }
 

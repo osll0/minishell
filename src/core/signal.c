@@ -14,11 +14,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
+#include "libft.h"
 
 void	sigint_handler_parent(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -30,8 +31,24 @@ void	set_signals_parent(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void	set_signals_fork(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 void	set_signals_child(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void	check_fork_signal(int stat)
+{
+	if ((stat & 255) != 0)
+	{
+		if ((stat & 127) == 2)
+			ft_putstr_fd("\n", STDERR_FILENO);
+		else if((stat & 127) == 3)
+			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+	}
 }
