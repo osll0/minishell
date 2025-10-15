@@ -17,13 +17,14 @@
 #include "pipe.h"
 #include "builtin.h"
 #include "env.h"
+#include "minishell_signal.h"
 
 void	child_exec(const t_cmd *cmd, t_env *env)
 {
 	int			rc;
 	t_builtin	bk;
 
-	setup_child_signals_default();
+	set_signals_child();
 	if (apply_redirs(cmd->redirs, cmd->n_redirs) < 0)
 		exit(1);
 	if (cmd->argc == 0 || !cmd->argv || !cmd->argv[0])
