@@ -33,7 +33,41 @@ SRC_CORE := \
 	src/core/loop.c \
 	src/core/signal.c \
 
-SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER)
+SRC_EXEC := \
+	src/exec/child_exec.c \
+	src/exec/exec_errors.c \
+	src/exec/exec_helpers.c \
+	src/exec/exec_parent_redir.c \
+	src/exec/executor_pipe.c \
+	src/exec/executor_single.c \
+	src/exec/executor_stage.c \
+	src/exec/executor.c \
+	src/exec/redir.c \
+	src/exec/resolve_entry.c \
+	src/exec/resolve_path.c \
+	src/exec/split_path.c
+
+SRC_FD := \
+	src/fd/fd_dup_close.c \
+	src/fd/fd_open.c \
+	src/fd/fd_pipe.c \
+	src/fd/fd_pipes_array.c
+
+SRC_BUILTIN := \
+	src/builtin/builtin_cd.c \
+	src/builtin/builtin_child.c \
+	src/builtin/builtin_echo.c \
+	src/builtin/builtin_env.c \
+	src/builtin/builtin_exit.c \
+	src/builtin/builtin_export.c \
+	src/builtin/builtin_lookup.c \
+	src/builtin/builtin_options.c \
+	src/builtin/builtin_parent.c \
+	src/builtin/builtin_pwd.c \
+	src/builtin/builtin_unset.c \
+	src/builtin/builtin_utils.c \
+
+SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD)
 OBJS := $(SRCS:.c=.o)
 
 # Default

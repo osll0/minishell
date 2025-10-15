@@ -48,7 +48,7 @@ void	loop(t_env *env_list)
 		tokens = tokenize_input(line);
 		ast = parse_tokens(tokens);
 		print_ast(ast, 0);
-		execute_ast(ast, env_list);
+		execute_ast(ast, &env_list);
 		free_loop(line, tokens, ast);
 	}	
 }

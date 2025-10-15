@@ -18,6 +18,7 @@
 #include "builtin.h"
 #include "ast.h"
 #include "builtin.h"
+#include "exec.h"
 
 static int	wait_status(pid_t pid)
 {
