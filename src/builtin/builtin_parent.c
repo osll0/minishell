@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:00:17 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/27 17:39:07 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/05 13:55:15 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 static int	will_exit(char *const *argv)
 {
-	int	i;
-	int	overflow;
-	long long v;
+	int			i;
+	int			overflow;
+	long long	v;
 
 	i = 1;
 	if (argv[i] && bi_is_double_dash(argv[i]))

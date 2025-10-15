@@ -12,6 +12,8 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #include "libft.h"
 #include "builtin.h"
 
@@ -51,6 +53,6 @@ int	builtin_pwd(char **argv)
 		printf("%s\n", buf);
 		return (0);
 	}
-	perror("pwd");
+	bi_print_err("pwd", strerror(errno), NULL);
 	return (1);
 }

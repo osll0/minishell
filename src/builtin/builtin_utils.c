@@ -40,8 +40,11 @@ void	bi_strtab_sort(char **tab)
 
 void	bi_print_err(const char *p, const char *msg, const char *arg)
 {
+	write(2, "minishell: ", 11);
 	if (p != NULL)
+	{
 		write(2, p, (size_t)ft_strlen(p));
+	}
 	if (msg != NULL)
 	{
 		write(2, ": ", 2);

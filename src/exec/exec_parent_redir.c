@@ -6,11 +6,12 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:50:32 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/15 19:55:12 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:47:48 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <errno.h>
+#include <string.h>
 #include <unistd.h>
 #include "fd_utils.h"
 #include "builtin.h"
@@ -26,7 +27,7 @@ static int	backup_stdio(int save[2])
 			x_close(save[0]);
 		if (save[1] >= 0)
 			x_close(save[1]);
-		perror("minishell: dup");
+		ex_print_err("dup", strerror(errno));
 		return (1);
 	}
 	return (0);
@@ -46,10 +47,11 @@ static void	restore_stdio(int save[2])
 	}
 }
 
-int	run_builtin_parent_with_redirs(const t_cmd *cmd, t_env *env)
+int	run_builtin_parent_with_redirs(const t_cmd *cmd, t_env **penv)
 {
-	int	save[2];
-	int	rc;
+	int			rc;
+	int			save[2];
+	t_builtin	k;
 
 	if (backup_stdio(save) != 0)
 		return (1);
@@ -58,8 +60,13 @@ int	run_builtin_parent_with_redirs(const t_cmd *cmd, t_env *env)
 		restore_stdio(save);
 		return (1);
 	}
-	rc = builtin_exec_parent(builtin_lookup(cmd->argv[0]),
-			cmd->argv, env);
+	k = builtin_lookup(cmd->argv[0]);
+	if (k == BUILTIN_NONE)
+	{
+		restore_stdio(save);
+		return (127);
+	}
+	rc = builtin_exec_parent(k, cmd->argv, penv);
 	restore_stdio(save);
 	return (rc);
 }

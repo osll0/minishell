@@ -6,25 +6,24 @@
 /*   By: seokson <seokson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 10:06:33 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/08 10:08:31 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/06 16:21:02 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
-#include <stdio.h>
 #include "fd_utils.h"
 
 int	x_pipe(int p[2])
 {
-	int	r;
-
-	r = pipe(p);
-	while (r < 0 && errno == EINTR)
-		r = pipe(p);
-	if (r < 0)
-		perror("minishell:pipe");
-	return (r);
+	while (1)
+	{
+		if (pipe(p) == 0)
+			return (0);
+		if (errno == EINTR)
+			continue ;
+		return (-1);
+	}
 }
 
 void	close_pipe_pair(int p[2])

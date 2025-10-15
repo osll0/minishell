@@ -6,14 +6,12 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:20:20 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/21 12:04:36 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/05 17:08:22 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-
-# include <stddef.h>
 
 typedef struct s_env
 {

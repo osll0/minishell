@@ -6,10 +6,11 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 15:45:36 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/21 16:44:05 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/05 18:21:08 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include "builtin.h"
 
 int	bi_is_single_dash(const char *s)
