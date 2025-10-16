@@ -42,7 +42,10 @@ static void	process_dollar(const char *word, int *i, char **res, t_env *env)
 
 	(*i)++;
 	start = *i;
-	while (word[*i] && (ft_isalnum(word[*i]) || word[*i] == '_' || word[*i] == '?'))
+	if (word[*i] != '?')
+		while (word[*i] && (ft_isalnum(word[*i]) || word[*i] == '_'))
+			(*i)++;
+	else
 		(*i)++;
 	key = ft_substr(word, start, *i - start);
 	val = expand_env_value(key, env);

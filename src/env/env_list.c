@@ -25,7 +25,7 @@ const char	*env_get(t_env *head, const char *key)
 			return (cur->value);
 		cur = cur->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 static int	update_existing_value(t_env *node, const char *val)
