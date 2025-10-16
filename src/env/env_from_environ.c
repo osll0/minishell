@@ -56,5 +56,6 @@ t_env	*env_from_environ(char *const *environ)
 		}
 		i++;
 	}
+	env_set(&head, "?", "0");
 	return (head);
 }

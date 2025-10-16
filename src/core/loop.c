@@ -18,8 +18,14 @@
 #include <stdio.h>
 #include "exec.h"
 #include "expand.h"
+#include "libft.h"
 
-void	free_loop(char *line, t_token *tokens, t_ast *ast)
+static void	set_exit(int status, t_env *env)
+{
+	env_set(&env, "?", ft_itoa(status));
+}
+
+static void	free_loop(char *line, t_token *tokens, t_ast *ast)
 {
 	if (line)
 		free(line);
@@ -35,7 +41,6 @@ void	loop(t_env *env_list)
 	t_token	*tokens;
 	t_ast	*ast;
 
-	(void)env_list;
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -47,9 +52,14 @@ void	loop(t_env *env_list)
 		if (*line)
 			add_history(line);
 		tokens = tokenize_input(line);
+		if (!tokens)
+		{
+			free_loop(line, tokens, 0);
+			continue ;
+		}
 		expand(tokens, env_list);
 		ast = parse_tokens(tokens);
-		execute_ast(ast, &env_list);
+		set_exit(execute_ast(ast, &env_list), env_list);
 		free_loop(line, tokens, ast);
 	}	
 }

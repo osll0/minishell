@@ -12,16 +12,19 @@
 #include "minishell_signal.h"
 #include "loop.h"
 #include "env.h"
+#include "libft.h"
 
 int	main(int ac, char **av, char **ev)
 {
 	t_env	*env_list;
+	int		ret;
 
 	(void)ac;
 	(void)av;
 	env_list = env_from_environ(ev);
 	set_signals_parent();
 	loop(env_list);
+	ret = ft_atoi(env_get(env_list, "?"));
 	env_free(&env_list);
-	return (0);
+	return (ret);
 }

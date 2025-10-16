@@ -17,7 +17,7 @@
 static const char	*expand_env_value(const char *key, t_env *env)
 {
 	if (ft_strcmp(key, "?") == 0)
-		return (ft_itoa(0));
+		return (env_get(env, key));
 	return (env_get(env, key));
 }
 
