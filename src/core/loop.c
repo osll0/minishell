@@ -6,24 +6,21 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:09:08 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/14 17:06:30 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/17 00:15:57 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 #include "loop.h"
 #include "minishell_signal.h"
 #include "env.h"
-#include <unistd.h>
+#include "context.h"
 #include "lexer.h"
 #include "parser.h"
 #include <stdio.h>
 #include "exec.h"
 #include "expand.h"
 #include "libft.h"
-
-static void	set_exit(int status, t_env *env)
-{
-	env_set(&env, "?", ft_itoa(status));
-}
 
 static void	free_loop(char *line, t_token *tokens, t_ast *ast)
 {
@@ -35,11 +32,12 @@ static void	free_loop(char *line, t_token *tokens, t_ast *ast)
 		free_ast(ast);
 }
 
-void	loop(t_env *env_list)
+int	loop(t_ctx *ctx)
 {
 	char	*line;
 	t_token	*tokens;
 	t_ast	*ast;
+	int		last_status;
 
 	while (1)
 	{
@@ -54,12 +52,14 @@ void	loop(t_env *env_list)
 		tokens = tokenize_input(line);
 		if (!tokens)
 		{
-			free_loop(line, tokens, 0);
+			free_loop(line, tokens, NULL);
 			continue ;
 		}
-		expand(tokens, env_list);
+		expand(tokens, ctx);
 		ast = parse_tokens(tokens);
-		set_exit(execute_ast(ast, &env_list), env_list);
+		last_status = execute_ast(ast, &ctx->env);
+		ctx->last_status = last_status;
 		free_loop(line, tokens, ast);
 	}	
+	return (ctx->last_status);
 }

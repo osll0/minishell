@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 12:47:24 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/10 19:46:39 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/17 00:16:25 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-# include "env.h"
+# include "context.h"
 
-void	loop(t_env *env_list);
+int	loop(t_ctx *ctx);
+
 #endif
