@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:32:03 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/17 01:03:52 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe)
 
 	if (need_pipe && x_pipe(pipe) < 0)
 		return (1);
-	set_signals_fork();
 	pid = fork();
 	if (pid < 0)
 		return (handle_fork_error(p, need_pipe, pipe));

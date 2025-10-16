@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 21:08:07 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/17 01:07:21 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	wait_all(int k, pid_t last_pid)
 	int		last_status;
 	pid_t	pid;
 
+	status = 0;
 	last_status = 1;
 	while (k > 0)
 	{
@@ -97,10 +98,14 @@ int	execute_pipe(const t_ast *node, t_env **penv)
 	ctx.remain = count_cmds(node);
 	if (ctx.remain <= 0)
 		return (0);
+	set_signals_fork();
 	rc = exec_pipeline_dfs(node, &ctx);
 	if (ctx.prev_in >= 0)
 		x_close(ctx.prev_in);
 	if (rc != 0)
+	{
+		set_signals_parent();
 		return (rc);
+	}
 	return (wait_all(ctx.made, ctx.last_pid));
 }
