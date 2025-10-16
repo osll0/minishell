@@ -31,7 +31,10 @@ SRC_PARSER := \
 
 SRC_CORE := \
 	src/core/loop.c \
+	src/core/loop_helpers.c \
 	src/core/signal.c \
+	src/core/prompt.c \
+	src/core/prompt_helpers.c
 
 SRC_EXEC := \
 	src/exec/child_exec.c \
