@@ -6,7 +6,7 @@
 /*   By: eggcoffee <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:00:21 by eggcoffee         #+#    #+#             */
-/*   Updated: 2025/10/16 17:00:23 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/17 00:16:58 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 #include "env.h"
 #include "libft.h"
 
-static const char	*expand_env_value(const char *key, t_env *env)
+static char	*expand_env_value(const char *key, t_ctx *ctx)
 {
+	const char *v;
+
 	if (ft_strcmp(key, "?") == 0)
-		return (env_get(env, key));
-	return (env_get(env, key));
+		return (ft_itoa(ctx->last_status));
+	v = env_get(ctx->env, key);
+	if (!v)
+		return (ft_strdup(""));
+	return (ft_strdup(v));
 }
 
 static void	append_char(char **res, char c)
@@ -33,12 +38,12 @@ static void	append_char(char **res, char c)
 	*res = joined;
 }
 
-static void	process_dollar(const char *word, int *i, char **res, t_env *env)
+static void	process_dollar(const char *word, int *i, char **res, t_ctx *ctx)
 {
 	int		start;
 	char	*key;
-	const char	*val;
-	char	*tmp;
+	char	*val;
+	char	*joined;
 
 	(*i)++;
 	start = *i;
@@ -48,14 +53,15 @@ static void	process_dollar(const char *word, int *i, char **res, t_env *env)
 	else
 		(*i)++;
 	key = ft_substr(word, start, *i - start);
-	val = expand_env_value(key, env);
+	val = expand_env_value(key, ctx);
 	free(key);
-	tmp = ft_strjoin(*res, val);
+	joined = ft_strjoin(*res, val);
 	free(*res);
-	*res = tmp;
+	free(val);
+	*res = joined;
 }
 
-static void	process_quotes(const char *word, int *i, char **res, t_env *env)
+static void	process_quotes(const char *word, int *i, char **res, t_ctx *ctx)
 {
 	char	quote;
 
@@ -64,13 +70,15 @@ static void	process_quotes(const char *word, int *i, char **res, t_env *env)
 	while (word[*i] && word[*i] != quote)
 	{
 		if (quote == '"' && word[*i] == '$' && word[*i + 1])
-			process_dollar(word, i, res, env);
+			process_dollar(word, i, res, ctx);
 		else
-		append_char(res, word[(*i)++]);
+			append_char(res, word[(*i)++]);
 	}
+	if (word[*i] == quote)
+		(*i)++;
 }
 
-char	*expand_word(const char *word, t_env *env)
+char	*expand_word(const char *word, t_ctx *ctx)
 {
 	char	*res;
 	int		i;
@@ -80,9 +88,9 @@ char	*expand_word(const char *word, t_env *env)
 	while (word[i])
 	{
 		if (word[i] == '\'' || word[i] == '"')
-			process_quotes(word, &i, &res, env);
+			process_quotes(word, &i, &res, ctx);
 		else if (word[i] == '$' && word[i + 1])
-			process_dollar(word, &i, &res, env);
+			process_dollar(word, &i, &res, ctx);
 		else
 			append_char(&res, word[i++]);
 	}
