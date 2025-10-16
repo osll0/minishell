@@ -17,6 +17,7 @@
 #include "parser.h"
 #include <stdio.h>
 #include "exec.h"
+#include "expand.h"
 
 void	free_loop(char *line, t_token *tokens, t_ast *ast)
 {
@@ -46,6 +47,7 @@ void	loop(t_env *env_list)
 		if (*line)
 			add_history(line);
 		tokens = tokenize_input(line);
+		expand(tokens, env_list);
 		ast = parse_tokens(tokens);
 		execute_ast(ast, &env_list);
 		free_loop(line, tokens, ast);

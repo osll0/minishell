@@ -67,7 +67,11 @@ SRC_BUILTIN := \
 	src/builtin/builtin_unset.c \
 	src/builtin/builtin_utils.c \
 
-SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD) $(SRC_BUILTIN)
+SRC_EXPAND := \
+	src/expand/expand.c \
+	src/expand/expand_word.c
+
+SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD) $(SRC_BUILTIN) $(SRC_EXPAND)
 OBJS := $(SRCS:.c=.o)
 
 # Default

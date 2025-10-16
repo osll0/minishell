@@ -14,7 +14,8 @@
 # define EXPAND_H
 
 # include "env.h"
+# include "lexer.h"
 
 void	expand(t_token *tokens, t_env *env);
-
+char	*expand_word(const char *word, t_env *env);
 # endif

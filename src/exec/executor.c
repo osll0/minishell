@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <readline/history.h>
+#include <readline/readline.h>
 #include "exec.h"
 #include "env.h"
 
