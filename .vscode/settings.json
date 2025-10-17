@@ -5,6 +5,7 @@
     "libft.h": "c",
     "readline.h": "c",
     "loop.h": "c",
-    "context.h": "c"
+    "context.h": "c",
+    "stdlib.h": "c"
   }
 }

@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "libft.h"
+#include "loop.h"
 #include <stdlib.h>
 
 static void	free_argv(t_ast *node)
@@ -68,11 +69,10 @@ t_cmd	init_cmd(void)
 	return (cmd);
 }
 
-void	set_ambig(t_redir *r, t_token *cur)
+void	check_ambig(t_redir *r, const char *s)
 {
-	r->ambig = 1;
-	if (cur)
-		r->target = ft_strdup(cur->value);
-	else
-		r->target = ft_strdup("'\\n'");
+	r->target = ft_strdup(s);
+	r->quoted = 0;
+	r->here_fd = -1;
+	r->ambig = 0;
 }

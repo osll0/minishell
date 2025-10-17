@@ -98,15 +98,8 @@ t_redir	parse_redir(t_token **cur)
 		r.kind = R_HERE;
 	*cur = (*cur)->next;
 	if (*cur && (*cur)->type == TOKEN_WORD)
-	{
-		r.target = ft_strdup((*cur)->value);
-		r.quoted = 0;
-		r.here_fd = -1;
-		r.ambig = 0;
-	}
+		check_ambig(&r, (*cur)->value);
 	else
-	{
-		set_ambig(&r, *cur);
-	}
+		r.target = NULL;
 	return (r);
 }

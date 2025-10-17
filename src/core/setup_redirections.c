@@ -12,45 +12,53 @@
 
 #include "loop.h"
 #include "lexer.h"
+#include "libft.h"
+#include <unistd.h>
 
-int	check_redir(t_ast *node, t_ctx *ctx)
+int	redir_error(const char *msg, const char *near, t_ctx *ctx)
 {
-	t_redir		*r;
-	int			i;
+	write(2, msg, ft_strlen(msg));
+	write(2, "'", 1);
+	write(2, near, ft_strlen(near));
+	write(2, "'", 1);
+	write(2, "\n", 1);
+	ctx->last_status = 2;
+	return (0);
+}
 
-	i = 0;
-	while (i < node->cmd.n_redirs)
+int	has_space(const char *s)
+{
+	while (*s)
 	{
-		r = &node->cmd.redirs[i];
-		if (r->ambig)
-		{
-			lexer_error("parse error near ", r->target);
-			ctx->last_status = 2;
+		if (ft_isspace(*s))
 			return (0);
-		}
-		i++;
+		s++;
 	}
 	return (1);
 }
 
-int	setup_redir(t_ast *node, t_ctx *ctx)
+
+
+int	setup_redir(t_token *node, t_ctx *ctx)
 {
-	if (!node)
-		return (0);
-	if (node->type == N_CMD)
-		return (check_redir(node, ctx));
-	else if (node->type == N_PIPE)
+	while (node)
 	{
-		if (!node->left->cmd.argv[0] || !node->right->cmd.argv[0])
+		if (1 <= node->type && node->type <= 5)
 		{
-			lexer_error("parse error near ", "\'|\'");
-			ctx->last_status = 2;
-			return (0);
+			if (node->type == TOKEN_PIPE)
+			{
+				if (!node->next)
+					return (redir_error("parse error near ", "|", ctx));
+			}
+			else if (2 <= node->type && node->type <= 5)
+			{
+					if (!node->next)
+						return (redir_error("parse error near ", "\\n", ctx));
+					else if(node->next->type != TOKEN_WORD)
+						return (redir_error("parse error near ", node->next->value, ctx));
+			}
 		}
-		if (!setup_redir(node->left, ctx))
-			return (0);
-		if (!setup_redir(node->right, ctx))
-			return (0);
+		node = node->next;		
 	}
 	return (1);
 }

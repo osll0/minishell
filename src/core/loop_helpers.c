@@ -81,6 +81,6 @@ void	if_exit(int status, char *line, t_token *toks, t_ast *ast, t_ctx *ctx)
 		free_loop(line, toks, ast);
 		rl_clear_history();
 		env_free(&ctx->env);
-		exit(code);
+		exit(ctx->last_status);
 	}
 }

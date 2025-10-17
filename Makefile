@@ -74,7 +74,10 @@ SRC_EXPAND := \
 	src/expand/expand.c \
 	src/expand/expand_word.c
 
-SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD) $(SRC_BUILTIN) $(SRC_EXPAND)
+SRC_HEREDOC := \
+	src/heredoc/heredoc.c
+
+SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD) $(SRC_BUILTIN) $(SRC_EXPAND) $(SRC_HEREDOC)
 OBJS := $(SRCS:.c=.o)
 
 # Default

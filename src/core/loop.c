@@ -19,6 +19,7 @@
 #include "expand.h"
 #include "libft.h"
 #include "loop.h"
+#include "heredoc.h"
 
 int	loop(t_ctx *ctx)
 {
@@ -33,16 +34,17 @@ int	loop(t_ctx *ctx)
 			break ;
 		if (tokenize_or_continue(line, &tokens))
 			continue ;
+		if (setup_redir(tokens, ctx) == 0)
+		{
+			free_loop(line, tokens, NULL);
+			continue;
+		}
 		expand(tokens, ctx);
 		ast = parse_tokens(tokens);
-		if (setup_redir(ast, ctx) == 0)
-		{
-			free_loop(line, tokens, ast);
-			continue ;
-		}
+		process_heredocs(ast);
 		rc = execute_ast(ast, &ctx->env);
-		ctx->last_status = rc;
 		if_exit(rc, line, tokens, ast, ctx);
+		ctx->last_status = rc;
 		free_loop(line, tokens, ast);
 	}
 	return (ctx->last_status);
