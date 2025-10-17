@@ -1,6 +1,10 @@
 {
   "files.associations": {
     "ast.h": "c",
-    "lexer.h": "c"
+    "lexer.h": "c",
+    "libft.h": "c",
+    "readline.h": "c",
+    "loop.h": "c",
+    "context.h": "c"
   }
 }

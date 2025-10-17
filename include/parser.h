@@ -23,6 +23,6 @@ t_cmd init_cmd(void);
 t_redir parse_redir(t_token **cur);
 
 void    free_ast(t_ast *node);
-void    print_ast(t_ast *node, int depth);
+void    set_ambig(t_redir *r, t_token *cur);
 
 #endif

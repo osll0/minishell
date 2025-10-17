@@ -13,6 +13,7 @@
 #include "parser.h"
 #include "libft.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 t_ast	*parse_tokens(t_token *tokens)
 {
@@ -104,6 +105,8 @@ t_redir	parse_redir(t_token **cur)
 		r.ambig = 0;
 	}
 	else
-		r.target = NULL;
+	{
+		set_ambig(&r, *cur);
+	}
 	return (r);
 }

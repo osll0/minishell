@@ -55,7 +55,7 @@ static int	parse_quote(const char *line, size_t *i)
 		(*i)++;
 	if (!line[*i])
 	{
-		lexer_error("unclosed quote", &line[start]);
+		lexer_error("unclosed quote ", &line[start]);
 		return (0);
 	}
 	(*i)++;

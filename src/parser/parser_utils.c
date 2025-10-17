@@ -67,3 +67,12 @@ t_cmd	init_cmd(void)
 	cmd.n_redirs = 0;
 	return (cmd);
 }
+
+void	set_ambig(t_redir *r, t_token *cur)
+{
+	r->ambig = 1;
+	if (cur)
+		r->target = ft_strdup(cur->value);
+	else
+		r->target = ft_strdup("'\\n'");
+}

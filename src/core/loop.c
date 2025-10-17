@@ -30,11 +30,16 @@ int	loop(t_ctx *ctx)
 	while (1)
 	{
 		if (prompt_readline(ctx, &line))
-			break;
+			break ;
 		if (tokenize_or_continue(line, &tokens))
-			continue;
+			continue ;
 		expand(tokens, ctx);
 		ast = parse_tokens(tokens);
+		if (setup_redir(ast, ctx) == 0)
+		{
+			free_loop(line, tokens, ast);
+			continue ;
+		}
 		rc = execute_ast(ast, &ctx->env);
 		ctx->last_status = rc;
 		if_exit(rc, line, tokens, ast, ctx);

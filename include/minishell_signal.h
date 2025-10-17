@@ -14,6 +14,8 @@
 # define MINISHELL_SIGNAL_H
 # include <signal.h>
 
+extern int	g_exit_status;
+
 void	sigint_handler_parent(int sig);
 void	set_signals_parent(void);
 void	set_signals_child(void);

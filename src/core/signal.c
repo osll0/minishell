@@ -15,6 +15,10 @@
 #include <readline/history.h>
 #include <unistd.h>
 #include "libft.h"
+#include "minishell_signal.h"
+#include <stdio.h>
+
+int	g_exit_status = 0;
 
 void	sigint_handler_parent(int sig)
 {
@@ -23,6 +27,7 @@ void	sigint_handler_parent(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_exit_status = 1;
 }
 
 void	set_signals_parent(void)

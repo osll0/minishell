@@ -20,6 +20,17 @@
 #include "libft.h"
 #include "prompt.h"
 #include "loop.h"
+#include "minishell_signal.h"
+
+void	update_exit_status_by_signal(t_ctx *ctx)
+{	
+	if (g_exit_status == 1)
+	{
+		ctx->last_status = 130;
+		g_exit_status = 0;
+	}
+	
+}
 
 void	free_loop(char *line, t_token *tokens, t_ast *ast)
 {
@@ -37,6 +48,7 @@ int	prompt_readline(t_ctx *ctx, char **out_line)
 
 	prompt = make_prompt(ctx);
 	*out_line = readline(prompt);
+	update_exit_status_by_signal(ctx);
 	free(prompt);
 	if (!*out_line)
 	{
