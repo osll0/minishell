@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 21:08:07 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 20:09:35 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	exec_pipeline_dfs(const t_ast *n, t_pipe *p)
 	if (n->type == N_CMD)
 	{
 		need_pipe = (p->remain > 1);
-		return (spawn_stage(&n->cmd, p, need_pipe, n));
+		return (spawn_stage(&n->cmd, p, need_pipe));
 	}
 	rc = exec_pipeline_dfs(n->left, p);
 	if (rc != 0)
@@ -96,6 +96,7 @@ int	execute_pipe(const t_ast *node, t_env **penv)
 	ctx.last_pid = -1;
 	ctx.env = *penv;
 	ctx.remain = count_cmds(node);
+	ctx.root = node;
 	if (ctx.remain <= 0)
 		return (0);
 	set_signals_fork();
