@@ -42,7 +42,6 @@ int	loop(t_ctx *ctx)
 		ast = parse_tokens(tokens, ctx);
 		free_tokens(tokens);
 		process_heredocs(ast, ctx);
-		update_exit_status_by_here(ctx);
 		rc = execute_ast(ast, &ctx->env);
 		if_exit(rc, line, NULL, ast, ctx);
 		ctx->last_status = rc;

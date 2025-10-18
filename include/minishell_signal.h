@@ -23,8 +23,5 @@ void	set_signals_parent(void);
 void	set_signals_child(void);
 void	set_signals_fork(void);
 void    check_fork_signal(int stat);
-void	heredoc_sigint_handler(int sig);
-void	set_signals_heredoc(void);
-void	update_exit_status_by_here(t_ctx *ctx);
 
 #endif

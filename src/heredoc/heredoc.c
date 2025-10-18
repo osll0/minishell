@@ -67,7 +67,6 @@ int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx)
 	int		fd[2];
 	char	*line;
 
-	set_signals_heredoc();
 	if (pipe(fd) == -1)
 		return (-1);
 	while (1)
@@ -86,6 +85,5 @@ int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx)
 		free(line);
 	}
 	close(fd[1]);
-	set_signals_parent();
 	return (fd[0]);
 }

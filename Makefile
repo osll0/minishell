@@ -34,8 +34,7 @@ SRC_CORE := \
 	src/core/signal.c \
 	src/core/prompt.c \
 	src/core/prompt_helpers.c \
-	src/core/setup_redirections.c \
-	src/core/signal_heredoc.c
+	src/core/setup_redirections.c 
 
 SRC_EXEC := \
 	src/exec/child_exec.c \
