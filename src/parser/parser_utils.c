@@ -13,6 +13,8 @@
 #include "parser.h"
 #include "libft.h"
 #include "loop.h"
+#include "context.h"
+#include "expand.h"
 #include <stdlib.h>
 
 static void	free_argv(t_ast *node)
@@ -69,10 +71,23 @@ t_cmd	init_cmd(void)
 	return (cmd);
 }
 
-void	check_ambig(t_redir *r, const char *s)
+void	fill_redir(t_redir *r, const char *s, t_ctx *ctx)
 {
-	r->target = ft_strdup(s);
-	r->quoted = 0;
 	r->here_fd = -1;
+	r->quoted = 0;
 	r->ambig = 0;
+	if (r->kind == TOKEN_HEREDOC)
+	{
+		r->target = expand_heredoc(s, r);
+	}
+	else
+	{
+		if (check_ambig(s, ctx))
+		{
+			r->ambig = 1;
+			r->target = ft_strdup(s);
+		}
+		else
+			r->target = expand_word(s, ctx);
+	}
 }

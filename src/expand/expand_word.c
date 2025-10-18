@@ -14,7 +14,7 @@
 #include "env.h"
 #include "libft.h"
 
-static char	*expand_env_value(const char *key, t_ctx *ctx)
+char	*expand_env_value(const char *key, t_ctx *ctx)
 {
 	const char *v;
 
@@ -26,7 +26,7 @@ static char	*expand_env_value(const char *key, t_ctx *ctx)
 	return (ft_strdup(v));
 }
 
-static void	append_char(char **res, char c)
+void	append_char(char **res, char c)
 {
 	char	tmp[2];
 	char	*joined;

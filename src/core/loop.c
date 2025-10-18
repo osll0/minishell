@@ -39,8 +39,7 @@ int	loop(t_ctx *ctx)
 			free_loop(line, tokens, NULL);
 			continue;
 		}
-		expand(tokens, ctx);
-		ast = parse_tokens(tokens);
+		ast = parse_tokens(tokens, ctx);
 		free_tokens(tokens);
 		process_heredocs(ast);
 		rc = execute_ast(ast, &ctx->env);

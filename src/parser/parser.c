@@ -12,28 +12,30 @@
 
 #include "parser.h"
 #include "libft.h"
+#include "context.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "expand.h"
 
-t_ast	*parse_tokens(t_token *tokens)
+t_ast	*parse_tokens(t_token *tokens, t_ctx *ctx)
 {
 	t_token	*cur;
 
 	cur = tokens;
-	return (parse_pipe_sequence(&cur));
+	return (parse_pipe_sequence(&cur, ctx));
 }
 
-t_ast	*parse_pipe_sequence(t_token **cur)
+t_ast	*parse_pipe_sequence(t_token **cur, t_ctx *ctx)
 {
 	t_ast	*left;
 	t_ast	*right;
 	t_ast	*node;
 
-	left = parse_command(cur);
+	left = parse_command(cur, ctx);
 	while (*cur && (*cur)->type == TOKEN_PIPE)
 	{
 		*cur = (*cur)->next;
-		right = parse_command(cur);
+		right = parse_command(cur, ctx);
 		if (!right)
 			break ;
 		node = malloc(sizeof(t_ast));
@@ -47,21 +49,21 @@ t_ast	*parse_pipe_sequence(t_token **cur)
 	return (left);
 }
 
-void	parse_tokens_to_cmd(t_token **cur, t_cmd *cmd)
+void	parse_tokens_to_cmd(t_token **cur, t_cmd *cmd, t_ctx *ctx)
 {
 	while (*cur && (*cur)->type != TOKEN_PIPE)
 	{
 		if ((*cur)->type == TOKEN_WORD)
-			cmd->argv[cmd->argc++] = ft_strdup((*cur)->value);
+			cmd->argv[cmd->argc++] = expand_word((*cur)->value, ctx);
 		else if ((*cur)->type >= 2 && (*cur)->type <= 5)
-			cmd->redirs[cmd->n_redirs++] = parse_redir(cur);
+			cmd->redirs[cmd->n_redirs++] = parse_redir(cur, ctx);
 		if (*cur)
 			*cur = (*cur)->next;
 	}
 	cmd->argv[cmd->argc] = NULL;
 }
 
-t_ast	*parse_command(t_token **cur)
+t_ast	*parse_command(t_token **cur, t_ctx *ctx)
 {
 	t_cmd	cmd;
 	t_ast	*node;
@@ -71,7 +73,7 @@ t_ast	*parse_command(t_token **cur)
 	cmd.redirs = malloc(sizeof(t_redir) * 16);
 	if (!cmd.argv || !cmd.redirs)
 		return (NULL);
-	parse_tokens_to_cmd(cur, &cmd);
+	parse_tokens_to_cmd(cur, &cmd, ctx);
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
@@ -82,7 +84,7 @@ t_ast	*parse_command(t_token **cur)
 	return (node);
 }
 
-t_redir	parse_redir(t_token **cur)
+t_redir	parse_redir(t_token **cur, t_ctx *ctx)
 {
 	t_redir	r;
 	t_token	*tok;
@@ -98,7 +100,7 @@ t_redir	parse_redir(t_token **cur)
 		r.kind = R_HERE;
 	*cur = (*cur)->next;
 	if (*cur && (*cur)->type == TOKEN_WORD)
-		check_ambig(&r, (*cur)->value);
+		fill_redir(&r, (*cur)->value, ctx);
 	else
 		r.target = NULL;
 	return (r);

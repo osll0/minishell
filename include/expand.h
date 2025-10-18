@@ -15,7 +15,14 @@
 
 # include "context.h"
 # include "lexer.h"
+# include "ast.h"
 
+void	process_quotes_redir(const char *word, int *i);
 void	expand(t_token *tokens, t_ctx *ctx);
 char	*expand_word(const char *word, t_ctx *ctx);
+char	*expand_heredoc(const char *word, t_redir *r);
+int	    check_ambig(const char *s, t_ctx *ctx);
+int	    process_dollar_redir(const char *word, int *i, t_ctx *ctx);
+void	append_char(char **res, char c);
+
 # endif
