@@ -6,30 +6,43 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 01:53:28 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/17 02:23:01 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 12:08:30 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 #include "env.h"
 #include "libft.h"
 #include "prompt.h"
 
-static char	*resolve_host(t_ctx *ctx)
+static char	*get_hostname(void)
 {
-	const char	*h;
+	int		fd;
+	char	buf[1024];
+	ssize_t	n;
+	char	*tmp;
 
-	h = env_get(ctx->env, "HOSTNAME");
-	if (!h || !*h)
-		h = env_get(ctx->env, "NAME");
-	if (h && *h)
-		return (ft_strdup(h));
-	return (ft_strdup("unknownhost"));
+	fd = open("/etc/hostname", O_RDONLY);
+	if (fd < 0)
+		return (ft_strdup("unknownhost"));
+	n = read(fd, buf, sizeof(buf) - 1);
+	close(fd);
+	if (n <= 0)
+		return (ft_strdup("unknownhost"));
+	buf[n] = '\0';
+	tmp = ft_strchr(buf, '\n');
+	if (tmp)
+		*tmp = '\0';
+	tmp = strchr(buf, '.');
+	if (tmp)
+		*tmp = '\0';
+	return (ft_strdup(buf));
 }
 
-static char	*resolve_user(t_ctx *ctx)
+static char	*get_user(t_ctx *ctx)
 {
 	const char	*u;
 
@@ -49,8 +62,8 @@ char	*make_prompt(t_ctx *ctx)
 	char	*path;
 	char	*prompt;
 
-	user = resolve_user(ctx);
-	host = resolve_host(ctx);
+	user = get_user(ctx);
+	host = get_hostname();
 	cwd  = pr_resolve_cwd(ctx);
 	path = pr_tilde_path(cwd, env_get(ctx->env, "HOME"));
 	prompt = ft_strdup("");
