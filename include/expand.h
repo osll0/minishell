@@ -25,5 +25,6 @@ char	*expand_env_value(const char *key, t_ctx *ctx);
 int	    check_ambig(const char *s, t_ctx *ctx);
 int	    process_dollar_redir(const char *word, int *i, t_ctx *ctx);
 void	append_char(char **res, char c);
+void	process_dollar(const char *word, int *i, char **res, t_ctx *ctx);
 
 # endif

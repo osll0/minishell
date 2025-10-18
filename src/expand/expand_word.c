@@ -38,7 +38,7 @@ void	append_char(char **res, char c)
 	*res = joined;
 }
 
-static void	process_dollar(const char *word, int *i, char **res, t_ctx *ctx)
+void	process_dollar(const char *word, int *i, char **res, t_ctx *ctx)
 {
 	int		start;
 	char	*key;
@@ -83,8 +83,10 @@ char	*expand_word(const char *word, t_ctx *ctx)
 	char	*res;
 	int		i;
 
-	res = ft_strdup("");
 	i = 0;
+	if (word[i] == '~' && ft_strlen(word) == 1)
+		return (ft_strdup(expand_env_value("HOME", ctx)));
+	res = ft_strdup("");
 	while (word[i])
 	{
 		if (word[i] == '\'' || word[i] == '"')

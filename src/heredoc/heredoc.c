@@ -15,10 +15,12 @@
 #include "libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include "context.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "expand.h"
 
-int process_heredocs(t_ast *ast)
+int process_heredocs(t_ast *ast, t_ctx *ctx)
 {
 	if (!ast)
 		return (1);
@@ -29,7 +31,7 @@ int process_heredocs(t_ast *ast)
 			t_redir *r = &ast->cmd.redirs[i];
 			if (r->kind == R_HERE)
 			{
-				r->here_fd = handle_heredoc(r->target);
+				r->here_fd = handle_heredoc(r->target, r->quoted, ctx);
 				if (r->here_fd < 0)
 					return (0);
 			}
@@ -37,15 +39,33 @@ int process_heredocs(t_ast *ast)
 	}
 	else if (ast->type == N_PIPE)
 	{
-		if (!process_heredocs(ast->left))
+		if (!process_heredocs(ast->left, ctx))
 			return (0);
-		if (!process_heredocs(ast->right))
+		if (!process_heredocs(ast->right, ctx))
 			return (0);
 	}
 	return (1);
 }
 
-int	handle_heredoc(char *delimiter)
+char	*expand_quoted(char *word, t_ctx *ctx)
+{
+	char	*res;
+	int		i;
+
+	i = 0;
+	res = ft_strdup("");
+	while (word[i])
+	{
+		if (word[i] == '$' && word[i + 1])
+			process_dollar(word, &i, &res, ctx);
+		else
+			append_char(&res, word[i++]);
+	}
+	free(word);
+	return (res);
+}
+
+int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx)
 {
 	int		fd[2];
 	char	*line;
@@ -59,6 +79,10 @@ int	handle_heredoc(char *delimiter)
 		{
 			free(line);
 			break ;
+		}
+		if (!quoted)
+		{
+			line = expand_quoted(line, ctx);
 		}
 		ft_putendl_fd(line, fd[1]);
 		free(line);

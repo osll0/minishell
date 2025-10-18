@@ -14,8 +14,9 @@
 # define HEREDOC_H
 
 # include "ast.h"
+# include "context.h"
 
-int process_heredocs(t_ast *ast);
-int	handle_heredoc(char *delimiter);
+int process_heredocs(t_ast *ast, t_ctx *ctx);
+int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx);
 
 # endif
