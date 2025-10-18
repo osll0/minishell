@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 int	g_exit_status = 0;
+int	heredoc_status = 0;
 
 void	sigint_handler_parent(int sig)
 {

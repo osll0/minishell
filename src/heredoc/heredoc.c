@@ -19,6 +19,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "expand.h"
+#include "minishell_signal.h"
 
 int process_heredocs(t_ast *ast, t_ctx *ctx)
 {
@@ -38,12 +39,8 @@ int process_heredocs(t_ast *ast, t_ctx *ctx)
 		}
 	}
 	else if (ast->type == N_PIPE)
-	{
-		if (!process_heredocs(ast->left, ctx))
+		if (!process_heredocs(ast->left, ctx) || !process_heredocs(ast->right, ctx))
 			return (0);
-		if (!process_heredocs(ast->right, ctx))
-			return (0);
-	}
 	return (1);
 }
 
@@ -70,12 +67,13 @@ int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx)
 	int		fd[2];
 	char	*line;
 
+	set_signals_heredoc();
 	if (pipe(fd) == -1)
 		return (-1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0 || heredoc_status == 1)
 		{
 			free(line);
 			break ;
@@ -88,5 +86,6 @@ int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx)
 		free(line);
 	}
 	close(fd[1]);
+	set_signals_parent();
 	return (fd[0]);
 }

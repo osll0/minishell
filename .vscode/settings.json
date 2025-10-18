@@ -7,6 +7,7 @@
     "loop.h": "c",
     "context.h": "c",
     "stdlib.h": "c",
-    "heredoc.h": "c"
+    "heredoc.h": "c",
+    "signal.h": "c"
   }
 }
