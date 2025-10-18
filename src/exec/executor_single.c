@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:28:29 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/09 17:50:09 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	wait_status(pid_t pid)
 	return (1);
 }
 
-int	execute_single_cmd(const t_cmd *cmd, t_env **penv)
+int	execute_single_cmd(const t_cmd *cmd, t_env **penv, const t_ast *ast)
 {
 	pid_t		pid;
 	t_builtin	bk;
@@ -61,6 +61,6 @@ int	execute_single_cmd(const t_cmd *cmd, t_env **penv)
 		return (1);
 	}
 	if (pid == 0)
-		child_exec(cmd, *penv);
+		child_exec(cmd, *penv, ast);
 	return (wait_status(pid));
 }

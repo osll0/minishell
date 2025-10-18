@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 21:08:07 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/17 01:07:21 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	exec_pipeline_dfs(const t_ast *n, t_pipe *p)
 	if (n->type == N_CMD)
 	{
 		need_pipe = (p->remain > 1);
-		return (spawn_stage(&n->cmd, p, need_pipe));
+		return (spawn_stage(&n->cmd, p, need_pipe, n));
 	}
 	rc = exec_pipeline_dfs(n->left, p);
 	if (rc != 0)

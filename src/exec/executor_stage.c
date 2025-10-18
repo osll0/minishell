@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:32:03 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/17 01:03:52 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	setup_parent_fds(t_pipe *p, int need_pipe, int pipe[2], pid_t pid)
 	p->remain -= 1;
 }
 
-int	spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe)
+int	spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe, const t_ast *ast)
 {
 	int		pipe[2];
 	pid_t	pid;
@@ -89,7 +89,7 @@ int	spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe)
 	if (pid == 0)
 	{
 		setup_child_fds(p, need_pipe, pipe);
-		child_exec(cmd, p->env);
+		child_exec(cmd, p->env, ast);
 	}
 	setup_parent_fds(p, need_pipe, pipe, pid);
 	return (0);
