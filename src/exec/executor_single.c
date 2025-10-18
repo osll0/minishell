@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:28:29 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 18:52:22 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	execute_single_cmd(const t_cmd *cmd, t_env **penv, const t_ast *ast)
 	pid_t		pid;
 	t_builtin	bk;
 
-	if (!cmd || !cmd->argv || !cmd->argv[0])
+	if (!cmd)
 		return (0);
 	bk = builtin_lookup(cmd->argv[0]);
 	if (bk == BUILTIN_CD || bk == BUILTIN_EXPORT
