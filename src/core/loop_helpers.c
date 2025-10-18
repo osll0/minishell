@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 01:35:51 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/18 13:04:09 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 14:39:50 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int	prompt_readline(t_ctx *ctx, char **out_line)
 	char *prompt;
 
 	prompt = make_prompt(ctx);
-	// *out_line = readline(prompt);
-	*out_line = get_next_line(0);
+	*out_line = readline(prompt);
 	update_exit_status_by_signal(ctx);
 	free(prompt);
 	if (!*out_line)
@@ -56,8 +55,6 @@ int	prompt_readline(t_ctx *ctx, char **out_line)
 		write(1, "exit\n", 5);
 		return (1);
 	}
-	// if (**out_line)
-	// 	add_history(*out_line);
 	return (0);
 }
 
