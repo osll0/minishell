@@ -6,18 +6,28 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 22:39:56 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/06 15:18:18 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 17:42:54 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "exec.h"
-#include "builtin.h"
 #include "env.h"
+#include "exec.h"
+#include "parser.h"
+#include "builtin.h"
 #include "minishell_signal.h"
 
-void	child_exec(const t_cmd *cmd, t_env *env)
+static void child_cleanup_and_exit(const t_ast *ast, t_env *env, int rc)
+{
+	if (ast)
+		free_ast((t_ast *)ast);
+	if (env)
+		env_free(&env);
+	exit(rc);
+}
+
+void	child_exec(const t_cmd *cmd, t_env *env, const t_ast *ast)
 {
 	int			rc;
 	t_builtin	bk;
@@ -31,8 +41,8 @@ void	child_exec(const t_cmd *cmd, t_env *env)
 	if (bk != BUILTIN_NONE)
 	{
 		rc = builtin_exec_child(bk, cmd->argv, env);
-		exit(rc);
+		child_cleanup_and_exit(ast, env, rc);
 	}
 	rc = resolve_and_exec(cmd->argv, env);
-	exit(rc);
+	child_cleanup_and_exit(ast, env, rc);
 }

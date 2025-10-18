@@ -6,16 +6,17 @@
 /*   By: eggcoffee <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 16:41:09 by eggcoffee         #+#    #+#             */
-/*   Updated: 2025/10/14 16:41:16 by eggcoffee        ###   ########.fr       */
+/*   Updated: 2025/10/18 17:47:30 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 #include "loop.h"
+#include "libft.h"
+#include "parser.h"
 #include "context.h"
 #include "expand.h"
-#include <stdlib.h>
 
 static void	free_argv(t_ast *node)
 {
@@ -38,6 +39,8 @@ static void	free_redirs(t_ast *node)
 	while (i < node->cmd.n_redirs)
 	{
 		free(node->cmd.redirs[i].target);
+		if (node->cmd.redirs[i].kind == R_HERE && node->cmd.redirs[i].here_fd >= 0)
+			close(node->cmd.redirs[i].here_fd);
 		i++;
 	}
 	free(node->cmd.redirs);

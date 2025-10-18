@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:27:12 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/17 01:28:52 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_ast(const t_ast *ast, t_env **penv)
 	if (!ast)
 		return (2);
 	if (ast->type == N_CMD)
-		rc = execute_single_cmd(&ast->cmd, penv);
+		rc = execute_single_cmd(&ast->cmd, penv, ast);
 	else
 		rc = execute_pipe(ast, penv);
 	return (rc);

@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 13:16:11 by seokson           #+#    #+#             */
-/*   Updated: 2025/09/20 16:08:06 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 14:31:26 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	update_existing_value(t_env *node, const char *val)
 {
 	char	*new_val;
 
+	if (!node)
+		return (-1);
 	if (val == NULL)
 	{
 		free(node->value);
