@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 15:50:40 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/18 17:42:23 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 20:09:24 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	child_exec(const t_cmd *cmd, t_env *env, const t_ast *ast);
 
 int		apply_redirs(t_redir *redirs, int n_redirs);
 
-int		spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe, const t_ast *n);
+int		spawn_stage(const t_cmd *cmd, t_pipe *p, int need_pipe);
 
 char	**split_path(const char *s);
 
