@@ -71,7 +71,6 @@ int	check_ambig(const char *word, t_ctx *ctx)
 	int			i;
 
 	i = 0;
-	printf("fuck1\n");
 	while (word[i])
 	{
 		if (word[i] == '\'' || word[i] == '"')
@@ -84,6 +83,5 @@ int	check_ambig(const char *word, t_ctx *ctx)
 		else
 			i++;
 	}
-	printf("fuck\n");
 	return (0);
 }
