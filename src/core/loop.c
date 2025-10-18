@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 18:09:08 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/17 02:17:02 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 12:33:37 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ int	loop(t_ctx *ctx)
 		}
 		expand(tokens, ctx);
 		ast = parse_tokens(tokens);
+		free_tokens(tokens);
 		process_heredocs(ast);
 		rc = execute_ast(ast, &ctx->env);
-		if_exit(rc, line, tokens, ast, ctx);
+		if_exit(rc, line, NULL, ast, ctx);
 		ctx->last_status = rc;
-		free_loop(line, tokens, ast);
+		free_loop(line, NULL, ast);
 	}
 	return (ctx->last_status);
 }

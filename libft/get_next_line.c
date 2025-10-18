@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_get_next_line.c                                :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shson <shson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:30:57 by shson             #+#    #+#             */
-/*   Updated: 2025/04/25 18:22:19 by shson            ###   ########.fr       */
+/*   Updated: 2025/10/18 12:45:42 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@ static char	*free_two_pointers(char *p1, char *p2)
 	free(p1);
 	free(p2);
 	return (NULL);
+}
+
+static int	free_line_new(char **line, char **new)
+{
+	if (!*line || !*new)
+	{
+		free(*line);
+		free(*new);
+		*line = NULL;
+		*new = NULL;
+		return (1);
+	}
+	if ((*new)[0] == '\0')
+	{
+		free(*new);
+		*new = NULL;
+	}
+	return (0);
 }
 
 static char	*split_by_newline(char **backup)
@@ -35,15 +53,9 @@ static char	*split_by_newline(char **backup)
 		len = p - *backup + 1;
 	line = gnl_substr(*backup, 0, len);
 	new = gnl_substr(*backup, len, gnl_strlen(*backup) - len);
-	if (!line || !new)
-	{
-		free(line);
-		free(new);
-		free(*backup);
-		*backup = NULL;
-		return (NULL);
-	}
 	free(*backup);
+	if (free_line_new(&line, &new))
+		return (NULL);
 	*backup = new;
 	return (line);
 }

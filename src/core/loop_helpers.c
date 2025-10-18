@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 01:35:51 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/17 02:17:49 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/18 13:04:09 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	prompt_readline(t_ctx *ctx, char **out_line)
 	char *prompt;
 
 	prompt = make_prompt(ctx);
-	*out_line = readline(prompt);
+	// *out_line = readline(prompt);
+	*out_line = get_next_line(0);
 	update_exit_status_by_signal(ctx);
 	free(prompt);
 	if (!*out_line)
@@ -55,8 +56,8 @@ int	prompt_readline(t_ctx *ctx, char **out_line)
 		write(1, "exit\n", 5);
 		return (1);
 	}
-	if (**out_line)
-		add_history(*out_line);
+	// if (**out_line)
+	// 	add_history(*out_line);
 	return (0);
 }
 
@@ -81,6 +82,8 @@ void	if_exit(int status, char *line, t_token *toks, t_ast *ast, t_ctx *ctx)
 		free_loop(line, toks, ast);
 		rl_clear_history();
 		env_free(&ctx->env);
-		exit(ctx->last_status);
+		exit(code);
 	}
+	if (*line)
+		add_history(line);
 }
