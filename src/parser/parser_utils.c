@@ -79,7 +79,7 @@ void	fill_redir(t_redir *r, const char *s, t_ctx *ctx)
 	r->here_fd = -1;
 	r->quoted = 0;
 	r->ambig = 0;
-	if (r->kind == TOKEN_HEREDOC)
+	if (r->kind == R_HERE)
 	{
 		r->target = expand_heredoc(s, r);
 	}

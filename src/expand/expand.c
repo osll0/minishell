@@ -71,6 +71,7 @@ int	check_ambig(const char *word, t_ctx *ctx)
 	int			i;
 
 	i = 0;
+	printf("fuck1\n");
 	while (word[i])
 	{
 		if (word[i] == '\'' || word[i] == '"')
@@ -78,10 +79,11 @@ int	check_ambig(const char *word, t_ctx *ctx)
 		else if (word[i] == '$' && word[i + 1])
 		{
 			if (!process_dollar_redir(word, &i, ctx))
-				return (0);
+				return (1);
 		}
 		else
 			i++;
 	}
-	return (1);
+	printf("fuck\n");
+	return (0);
 }

@@ -42,7 +42,7 @@ void	process_quotes_redir(const char *word, int *i)
 	quote = word[*i];
 	(*i)++;
 	while (word[*i] && word[*i] != quote)
-		i++;
+		(*i)++;
 	if (word[*i] == quote)
 		(*i)++;
 }
