@@ -14,6 +14,7 @@
 #include "expand.h"
 #include "ast.h"
 #include "loop.h"
+#include "libft.h"
 
 void    expand(t_token *tokens, t_ctx *ctx)
 {

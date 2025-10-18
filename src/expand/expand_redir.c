@@ -19,7 +19,6 @@ int	process_dollar_redir(const char *word, int *i, t_ctx *ctx)
 	int		start;
 	char	*key;
 	char	*val;
-	char	*joined;
 
 	(*i)++;
 	start = *i;

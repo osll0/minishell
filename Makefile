@@ -72,7 +72,8 @@ SRC_BUILTIN := \
 
 SRC_EXPAND := \
 	src/expand/expand.c \
-	src/expand/expand_word.c
+	src/expand/expand_word.c \
+	src/expand/expand_redir.c
 
 SRC_HEREDOC := \
 	src/heredoc/heredoc.c
