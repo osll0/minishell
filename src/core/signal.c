@@ -42,6 +42,7 @@ void	set_signals_fork(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
+
 void	set_signals_child(void)
 {
 	signal(SIGINT, SIG_DFL);

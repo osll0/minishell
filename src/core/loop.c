@@ -41,10 +41,12 @@ int	loop(t_ctx *ctx)
 		}
 		ast = parse_tokens(tokens, ctx);
 		free_tokens(tokens);
-		process_heredocs(ast, ctx);
-		rc = execute_ast(ast, &ctx->env);
-		if_exit(rc, line, NULL, ast, ctx);
-		ctx->last_status = rc;
+		if (process_heredocs(ast, ctx))
+		{
+			rc = execute_ast(ast, &ctx->env);
+			if_exit(rc, line, NULL, ast, ctx);
+			ctx->last_status = rc;
+		}
 		free_loop(line, NULL, ast);
 	}
 	return (ctx->last_status);
