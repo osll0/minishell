@@ -69,7 +69,8 @@ static void	process_quotes(const char *word, int *i, char **res, t_ctx *ctx)
 	(*i)++;
 	while (word[*i] && word[*i] != quote)
 	{
-		if (quote == '"' && word[*i] == '$' && word[*i + 1])
+		if (quote == '"' && word[*i] == '$' && word[*i + 1]
+			&& word[*i + 1] != quote && word[*i + 1] != ' ')
 			process_dollar(word, i, res, ctx);
 		else
 			append_char(res, word[(*i)++]);
