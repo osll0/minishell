@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <stdio.h>
 #include "ast.h"
 #include "fd_utils.h"
 #include "exec.h"

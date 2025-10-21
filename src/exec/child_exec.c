@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "env.h"
@@ -34,9 +35,9 @@ void	child_exec(const t_cmd *cmd, t_env *env, const t_ast *ast)
 
 	set_signals_child();
 	if (apply_redirs(cmd->redirs, cmd->n_redirs) < 0)
-		exit(1);
+		child_cleanup_and_exit(ast, env, 1);
 	if (cmd->argc == 0 || !cmd->argv || !cmd->argv[0])
-		exit(0);
+		child_cleanup_and_exit(ast, env, 0);
 	bk = builtin_lookup(cmd->argv[0]);
 	if (bk != BUILTIN_NONE)
 	{

@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "builtin.h"
 #include "ast.h"
 #include "builtin.h"
@@ -61,6 +62,8 @@ int	execute_single_cmd(const t_cmd *cmd, t_env **penv, const t_ast *ast)
 		return (1);
 	}
 	if (pid == 0)
+	{
 		child_exec(cmd, *penv, ast);
+	}
 	return (wait_status(pid));
 }
