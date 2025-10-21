@@ -6,7 +6,7 @@
 /*   By: seunbaek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 04:47:46 by seunbaek          #+#    #+#             */
-/*   Updated: 2025/10/18 04:47:48 by seunbaek         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:12:07 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	warn_heredoc_eof(const char *delimiter)
 	const char	*suffix;
 
 	prefix = "bash: 경고: here-document가 1번 행에서 파일의 끝으로 구분함 (`";
-	suffix = "'아(가) 필요함)\n";
+	suffix = "'이(가) 필요함)\n";
 	write(STDERR_FILENO, prefix, strlen(prefix));
 	write(STDERR_FILENO, delimiter, strlen(delimiter));
 	write(STDERR_FILENO, suffix, strlen(suffix));

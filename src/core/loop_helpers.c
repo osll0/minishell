@@ -6,7 +6,7 @@
 /*   By: seokson <seokson@student.42gyeongsan.kr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 01:35:51 by seokson           #+#    #+#             */
-/*   Updated: 2025/10/18 14:39:50 by seokson          ###   ########.fr       */
+/*   Updated: 2025/10/21 15:11:30 by seokson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "minishell_signal.h"
 
 void	update_exit_status_by_signal(t_ctx *ctx)
-{	
+{
 	if (g_exit_status == 1)
 	{
 		ctx->last_status = 130;
