@@ -53,9 +53,9 @@ void	parse_tokens_to_cmd(t_token **cur, t_cmd *cmd, t_ctx *ctx)
 {
 	while (*cur && (*cur)->type != TOKEN_PIPE)
 	{
-		if ((*cur)->type == TOKEN_WORD)
+		if ((*cur)->type == TOKEN_WORD && cmd->argc < 256)
 			cmd->argv[cmd->argc++] = expand_word((*cur)->value, ctx);
-		else if ((*cur)->type >= 2 && (*cur)->type <= 5)
+		else if (((*cur)->type >= 2 && (*cur)->type <= 5) && cmd->n_redirs < 16)
 			cmd->redirs[cmd->n_redirs++] = parse_redir(cur, ctx);
 		if (*cur)
 			*cur = (*cur)->next;
