@@ -16,7 +16,8 @@
 # include "ast.h"
 # include "context.h"
 
-int process_heredocs(t_ast *ast, t_ctx *ctx);
-int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx);
-
+int     heredoc_parent(int fd[2], int pid, t_ctx *ctx);
+int     process_heredocs(t_ast *ast, t_ctx *ctx);
+int	    handle_heredoc(char *delimiter, int quoted, t_ctx *ctx, t_ast *ast);
+void	run_heredoc_loop(char *delimiter, int quoted, t_ctx *ctx, int out_fd);
 # endif

@@ -37,8 +37,6 @@ int	has_space(const char *s)
 	return (1);
 }
 
-
-
 int	setup_redir(t_token *node, t_ctx *ctx)
 {
 	while (node)
@@ -52,13 +50,14 @@ int	setup_redir(t_token *node, t_ctx *ctx)
 			}
 			else if (2 <= node->type && node->type <= 5)
 			{
-					if (!node->next)
-						return (redir_error("parse error near ", "\\n", ctx));
-					else if(node->next->type != TOKEN_WORD)
-						return (redir_error("parse error near ", node->next->value, ctx));
+				if (!node->next)
+					return (redir_error("parse error near ", "\\n", ctx));
+				else if (node->next->type != TOKEN_WORD)
+					return (redir_error("parse error near ",
+							node->next->value, ctx));
 			}
 		}
-		node = node->next;		
+		node = node->next;
 	}
 	return (1);
 }

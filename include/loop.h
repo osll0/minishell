@@ -22,7 +22,7 @@
 void	free_loop(char *line, t_token *tokens, t_ast *ast);
 int		prompt_readline(t_ctx *ctx, char **out_line);
 int		tokenize_or_continue(char *line, t_token **out_tokens);
-void	if_exit(int status, char *line, t_token *toks, t_ast *ast, t_ctx *ctx);
+void	if_exit(int status, char *line, t_ast *ast, t_ctx *ctx);
 void	update_exit_status_by_signal(t_ctx *ctx);
 int		loop(t_ctx *ctx);
 int     setup_redir(t_token *node, t_ctx *ctx);

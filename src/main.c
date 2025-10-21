@@ -18,17 +18,14 @@
 int	main(int ac, char **av, char **ev)
 {
 	int		ret;
-	// char	*prompt;
 	t_ctx	ctx;
 
 	(void)ac;
 	(void)av;
 	ctx.env = env_from_environ(ev);
 	ctx.last_status = 0;
-	// prompt = make_prompt(ctx);
 	set_signals_parent();
 	ret = loop(&ctx);
-	// free(prompt);
 	rl_clear_history();
 	env_free(&ctx.env);
 	return (ret);

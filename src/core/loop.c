@@ -21,9 +21,17 @@
 #include "loop.h"
 #include "heredoc.h"
 
+static void	execute_wrap(t_ast *ast, t_ctx *ctx, char *line)
+{
+	int	rc;
+
+	rc = execute_ast(ast, &ctx->env);
+	if_exit(rc, line, ast, ctx);
+	ctx->last_status = rc;
+}
+
 int	loop(t_ctx *ctx)
 {
-	int		rc;
 	char	*line;
 	t_ast	*ast;
 	t_token	*tokens;
@@ -37,16 +45,12 @@ int	loop(t_ctx *ctx)
 		if (setup_redir(tokens, ctx) == 0)
 		{
 			free_loop(line, tokens, NULL);
-			continue;
+			continue ;
 		}
 		ast = parse_tokens(tokens, ctx);
 		free_tokens(tokens);
 		if (process_heredocs(ast, ctx))
-		{
-			rc = execute_ast(ast, &ctx->env);
-			if_exit(rc, line, NULL, ast, ctx);
-			ctx->last_status = rc;
-		}
+			execute_wrap(ast, ctx, line);
 		free_loop(line, NULL, ast);
 	}
 	return (ctx->last_status);

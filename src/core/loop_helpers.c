@@ -29,7 +29,6 @@ void	update_exit_status_by_signal(t_ctx *ctx)
 		ctx->last_status = 130;
 		g_exit_status = 0;
 	}
-	
 }
 
 void	free_loop(char *line, t_token *tokens, t_ast *ast)
@@ -44,7 +43,7 @@ void	free_loop(char *line, t_token *tokens, t_ast *ast)
 
 int	prompt_readline(t_ctx *ctx, char **out_line)
 {
-	char *prompt;
+	char	*prompt;
 
 	prompt = make_prompt(ctx);
 	*out_line = readline(prompt);
@@ -69,14 +68,14 @@ int	tokenize_or_continue(char *line, t_token **out_tokens)
 	return (0);
 }
 
-void	if_exit(int status, char *line, t_token *toks, t_ast *ast, t_ctx *ctx)
+void	if_exit(int status, char *line, t_ast *ast, t_ctx *ctx)
 {
 	int	code;
 
 	if (status >= 256)
 	{
 		code = (unsigned char)(status - 256);
-		free_loop(line, toks, ast);
+		free_loop(line, NULL, ast);
 		rl_clear_history();
 		env_free(&ctx->env);
 		exit(code);

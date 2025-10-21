@@ -19,7 +19,6 @@
 #include <stdio.h>
 
 int	g_exit_status = 0;
-int	heredoc_status = 0;
 
 void	sigint_handler_parent(int sig)
 {
@@ -55,7 +54,7 @@ void	check_fork_signal(int stat)
 	{
 		if ((stat & 127) == 2)
 			ft_putstr_fd("\n", STDERR_FILENO);
-		else if((stat & 127) == 3)
+		else if ((stat & 127) == 3)
 			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
 	}
 }

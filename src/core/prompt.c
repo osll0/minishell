@@ -54,6 +54,16 @@ static char	*get_user(t_ctx *ctx)
 	return (ft_strdup(u));
 }
 
+void	pr_append(char **prompt, char *user, char *host, char *path)
+{
+	pr_append_take(prompt, user);
+	pr_append_lit(prompt, "@");
+	pr_append_take(prompt, host);
+	pr_append_lit(prompt, ":");
+	pr_append_take(prompt, path);
+	pr_append_lit(prompt, "$ ");
+}
+
 char	*make_prompt(t_ctx *ctx)
 {
 	char	*user;
@@ -64,10 +74,11 @@ char	*make_prompt(t_ctx *ctx)
 
 	user = get_user(ctx);
 	host = get_hostname();
-	cwd  = pr_resolve_cwd(ctx);
+	cwd = pr_resolve_cwd(ctx);
 	path = pr_tilde_path(cwd, env_get(ctx->env, "HOME"));
 	prompt = ft_strdup("");
-	if (user == NULL || host == NULL || path == NULL || prompt == NULL) {
+	if (user == NULL || host == NULL || path == NULL || prompt == NULL)
+	{
 		free(user);
 		free(host);
 		free(cwd);
@@ -75,12 +86,7 @@ char	*make_prompt(t_ctx *ctx)
 		free(prompt);
 		return (ft_strdup("minishell$ "));
 	}
-	pr_append_take(&prompt, user);
-	pr_append_lit(&prompt, "@");
-	pr_append_take(&prompt, host);
-	pr_append_lit(&prompt, ":");
-	pr_append_take(&prompt, path);
-	pr_append_lit(&prompt, "$ ");
+	pr_append(&prompt, user, host, path);
 	free(cwd);
 	return (prompt);
 }

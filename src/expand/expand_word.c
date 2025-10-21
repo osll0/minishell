@@ -16,7 +16,7 @@
 
 char	*expand_env_value(const char *key, t_ctx *ctx)
 {
-	const char *v;
+	const char	*v;
 
 	if (ft_strcmp(key, "?") == 0)
 		return (ft_itoa(ctx->last_status));

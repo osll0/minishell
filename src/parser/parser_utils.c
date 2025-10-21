@@ -39,7 +39,8 @@ static void	free_redirs(t_ast *node)
 	while (i < node->cmd.n_redirs)
 	{
 		free(node->cmd.redirs[i].target);
-		if (node->cmd.redirs[i].kind == R_HERE && node->cmd.redirs[i].here_fd >= 0)
+		if (node->cmd.redirs[i].kind == R_HERE
+			&& node->cmd.redirs[i].here_fd >= 0)
 			close(node->cmd.redirs[i].here_fd);
 		i++;
 	}

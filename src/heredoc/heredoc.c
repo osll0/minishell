@@ -29,23 +29,29 @@
 
 int	process_heredocs(t_ast *ast, t_ctx *ctx)
 {
+	int		i;
+	t_redir	*r;
+
+	i = 0;
 	if (!ast)
 		return (1);
 	if (ast->type == N_CMD)
 	{
-		for (int i = 0; i < ast->cmd.n_redirs; i++)
+		while (i < ast->cmd.n_redirs)
 		{
-			t_redir *r = &ast->cmd.redirs[i];
+			r = &ast->cmd.redirs[i];
 			if (r->kind == R_HERE)
 			{
 				r->here_fd = handle_heredoc(r->target, r->quoted, ctx, ast);
 				if (r->here_fd < 0)
 					return (0);
 			}
+			i++;
 		}
 	}
 	else if (ast->type == N_PIPE)
-		if (!process_heredocs(ast->left, ctx) || !process_heredocs(ast->right, ctx))
+		if (!process_heredocs(ast->left, ctx)
+			|| !process_heredocs(ast->right, ctx))
 			return (0);
 	return (1);
 }
@@ -72,7 +78,6 @@ int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx, t_ast *ast)
 {
 	int		fd[2];
 	pid_t	pid;
-	int		status;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -86,34 +91,27 @@ int	handle_heredoc(char *delimiter, int quoted, t_ctx *ctx, t_ast *ast)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		set_signals_child();
+		set_signals_here();
 		run_heredoc_loop(delimiter, quoted, ctx, fd[1]);
 		free_ast(ast);
 		env_free(&ctx->env);
 		close(fd[1]);
-		exit(heredoc_status ? 1 : 0);
+		exit(0);
 	}
 	else
-	{
-		close(fd[1]);
-		waitpid(pid, &status, 0);
-		set_signals_parent();
-		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-			return (fd[0]);
-		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			write(STDOUT_FILENO, "\n", 1);
-			ctx->last_status = 130;
-			close(fd[0]);
-			return (-1);
-		}
-		else	
-		{
-			write(STDOUT_FILENO, "\n", 1);
-			close(fd[0]);
-			return (-1);
-		}
-	}
+		return (heredoc_parent(fd, pid, ctx));
+}
+
+static void	warn_heredoc_eof(const char *delimiter)
+{
+	const char	*prefix;
+	const char	*suffix;
+
+	prefix = "bash: 경고: here-document가 1번 행에서 파일의 끝으로 구분함 (`";
+	suffix = "'아(가) 필요함)\n";
+	write(STDERR_FILENO, prefix, strlen(prefix));
+	write(STDERR_FILENO, delimiter, strlen(delimiter));
+	write(STDERR_FILENO, suffix, strlen(suffix));
 }
 
 void	run_heredoc_loop(char *delimiter, int quoted, t_ctx *ctx, int out_fd)
@@ -123,7 +121,12 @@ void	run_heredoc_loop(char *delimiter, int quoted, t_ctx *ctx, int out_fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0 || heredoc_status == 1)
+		if (!line)
+		{
+			warn_heredoc_eof(delimiter);
+			break ;
+		}
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;

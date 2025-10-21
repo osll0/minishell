@@ -34,7 +34,8 @@ SRC_CORE := \
 	src/core/signal.c \
 	src/core/prompt.c \
 	src/core/prompt_helpers.c \
-	src/core/setup_redirections.c 
+	src/core/setup_redirections.c \
+	src/core/signal_here.c
 
 SRC_EXEC := \
 	src/exec/child_exec.c \
@@ -76,7 +77,8 @@ SRC_EXPAND := \
 	src/expand/expand_redir.c
 
 SRC_HEREDOC := \
-	src/heredoc/heredoc.c
+	src/heredoc/heredoc.c \
+	src/heredoc/heredoc_utils.c
 
 SRCS := $(SRC_MAIN) $(SRC_ENV) $(SRC_LEXER) $(SRC_CORE) $(SRC_PARSER) $(SRC_EXEC) $(SRC_FD) $(SRC_BUILTIN) $(SRC_EXPAND) $(SRC_HEREDOC)
 OBJS := $(SRCS:.c=.o)

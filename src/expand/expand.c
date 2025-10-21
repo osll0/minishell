@@ -16,10 +16,10 @@
 #include "loop.h"
 #include "libft.h"
 
-void    expand(t_token *tokens, t_ctx *ctx)
+void	expand(t_token *tokens, t_ctx *ctx)
 {
-	t_token *cur;
-	char    *expanded;
+	t_token	*cur;
+	char	*expanded;
 
 	cur = tokens;
 	while (cur)
@@ -41,7 +41,7 @@ static void	process_quotes_here(const char *word, int *i, char **res)
 	quote = word[*i];
 	(*i)++;
 	while (word[*i] && word[*i] != quote)
-			append_char(res, word[(*i)++]);
+		append_char(res, word[(*i)++]);
 	if (word[*i] == quote)
 		(*i)++;
 }

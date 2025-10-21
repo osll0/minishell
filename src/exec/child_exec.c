@@ -18,7 +18,7 @@
 #include "builtin.h"
 #include "minishell_signal.h"
 
-static void child_cleanup_and_exit(const t_ast *ast, t_env *env, int rc)
+static void	child_cleanup_and_exit(const t_ast *ast, t_env *env, int rc)
 {
 	if (ast)
 		free_ast((t_ast *)ast);

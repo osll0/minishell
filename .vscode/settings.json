@@ -8,6 +8,7 @@
     "context.h": "c",
     "stdlib.h": "c",
     "heredoc.h": "c",
-    "signal.h": "c"
+    "signal.h": "c",
+    "unistd.h": "c"
   }
 }

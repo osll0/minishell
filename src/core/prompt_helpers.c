@@ -72,15 +72,17 @@ void	pr_append_take(char **dst, char *frag)
 
 char	*pr_tilde_path(const char *cwd, const char *home)
 {
-	size_t	hlen;
+	size_t		hlen;
+	const char	*rest;
 
 	if (cwd == NULL)
 		return (pr_safe_dup(""));
 	if (home == NULL || *home == '\0')
 		return (pr_safe_dup(cwd));
 	hlen = strlen(home);
-	if (hlen > 0 && strncmp(cwd, home, hlen) == 0) {
-		const char *rest = cwd + hlen;
+	if (hlen > 0 && strncmp(cwd, home, hlen) == 0)
+	{
+		rest = cwd + hlen;
 		if (*rest == '\0')
 			return (ft_strdup("~"));
 		if (*rest == '/')
@@ -97,9 +99,11 @@ char	*pr_resolve_cwd(t_ctx *ctx)
 	cwd = getcwd(NULL, 0);
 	if (cwd != NULL)
 		return (cwd);
-	pwd = env_get(ctx != NULL ? ctx->env : NULL, "PWD");
+	if (ctx != NULL)
+		pwd = env_get(ctx->env, "PWD");
+	else
+		pwd = env_get(NULL, "PWD");
 	if (pwd == NULL || *pwd == '\0')
 		return (ft_strdup("."));
 	return (ft_strdup(pwd));
 }
-
