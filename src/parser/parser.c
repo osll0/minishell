@@ -51,10 +51,18 @@ t_ast	*parse_pipe_sequence(t_token **cur, t_ctx *ctx)
 
 void	parse_tokens_to_cmd(t_token **cur, t_cmd *cmd, t_ctx *ctx)
 {
+	char	*tmp;
+
 	while (*cur && (*cur)->type != TOKEN_PIPE)
 	{
 		if ((*cur)->type == TOKEN_WORD && cmd->argc < 256)
-			cmd->argv[cmd->argc++] = expand_word((*cur)->value, ctx);
+		{
+			tmp = expand_word((*cur)->value, ctx);
+			if (!ft_strcmp(tmp, "") && (*cur)->value[0] == '$')
+				free(tmp);
+			else
+				cmd->argv[cmd->argc++] = tmp;
+		}
 		else if (((*cur)->type >= 2 && (*cur)->type <= 5) && cmd->n_redirs < 16)
 			cmd->redirs[cmd->n_redirs++] = parse_redir(cur, ctx);
 		if (*cur)
